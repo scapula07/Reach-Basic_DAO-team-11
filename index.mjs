@@ -18,6 +18,8 @@ const voters=[]
 const  startingVoting=()=>{
   
   const acc =await stdlib.newTestAccount(startingBalance)
+  const ctc=acc.Contract(backend,ctcGovernor.getInfo())
+  voters
 }
 
 
