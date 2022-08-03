@@ -29,9 +29,9 @@ export const main = Reach.App(() => {
 
   init();
    
-  const showOutcome = ( proposalID,  voteFor, voteAgainst) => () => {
+  const showOutcome = ( proposalID,  voteFor, voteAgainst) => {
  
-   Governor.interact.showOutcome( proposalID, voteFor, voteAgainst)() };
+   Governor.interact.showOutcome( proposalID, voteFor, voteAgainst)};
 
    Governor.only(()=>{
      const { title, ticketPrice, deadline, proposalID}= declassify(interact.getProposal())
@@ -56,13 +56,13 @@ export const main = Reach.App(() => {
       .timeout(timeRemaining(), () => {
           Anybody.publish();
           commit()
-          showOutcome(TIMEOUT , voteFor, voteAgainst)();
+          showOutcome(TIMEOUT , voteFor, voteAgainst);
           const [ [], k ] = call(Voter.showOutcome);
           k( TIMEOUT );
           return [voteFor , voteAgainst]
       });
      
-    showOutcome( proposalID, voteFor, voteAgainst)();
+    showOutcome( proposalID, voteFor, voteAgainst);
     commit()
     const outcome = voteFor>= voteAgainst ? MOTION_WINS : MOTION_LOSE
 
