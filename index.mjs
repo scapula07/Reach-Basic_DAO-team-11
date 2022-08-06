@@ -4,7 +4,7 @@ const stdlib = loadStdlib(process.env);
 
 const startingBalance = stdlib.parseCurrency(100);
 
-const accGovernor=await stdlib.newTestAccount(2, startingBalance);
+const accGovernor= await stdlib.newTestAccount(2, startingBalance);
 console.log('Hello, Alice and Bob!');
 
 console.log('Launching...');
@@ -17,8 +17,8 @@ console.log('Starting backends...');
 const voters=[]
 const  startingVoting=()=>{
   
-  const acc =await stdlib.newTestAccount(startingBalance)
-  const ctc=acc.Contract(backend,ctcGovernor.getInfo())
+  const acc = await stdlib.newTestAccount(startingBalance)
+  const ctc = acc.Contract(backend,ctcGovernor.getInfo())
   voters
 }
 

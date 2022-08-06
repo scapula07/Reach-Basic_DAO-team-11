@@ -47,7 +47,7 @@ export const main = Reach.App(() => {
       .invariant(balance() == (voteFor + voteAgainst) * ticketPrice)
       .while(keepGoing())
       .api_(Voter.vote, (vote) => {
-          return [0, (k) => {
+          return [ticketPrice, (k) => {
               const [nF, nA] = vote ? [1, 0] : [0, 1]
               return [voteFor + nF, voteAgainst + nA]
           }]
@@ -69,5 +69,7 @@ export const main = Reach.App(() => {
     const [ [], k ] = call(Voter.showOutcome);
       k(outcome);
     commit()
+    transfe(balance()).to(Governor);
+    commit();
   exit();
 });
