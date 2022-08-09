@@ -18,6 +18,8 @@ export const main = Reach.App(() => {
   
   proposalReady: Fun([],Null), 
   showOutcome: Fun([UInt, UInt, UInt], Null),
+  callFunction:Fun([],Null),
+  showTimeout:Fun([UInt],Null)
 
 })
   const Voter= API('Voter', {  
@@ -48,6 +50,7 @@ export const main = Reach.App(() => {
       .while(keepGoing())
       .api_(Voter.vote, (vote) => {
           return [ticketPrice, (k) => {
+            k(true)
               const [nF, nA] = vote ? [1, 0] : [0, 1]
               return [voteFor + nF, voteAgainst + nA]
           }]
@@ -56,10 +59,14 @@ export const main = Reach.App(() => {
       .timeout(timeRemaining(), () => {
           Anybody.publish();
           commit()
-          showOutcome(TIMEOUT , voteFor, voteAgainst);
+         // showOutcome(TIMEOUT , voteFor, voteAgainst);
+         Governor.interact.showTimeout(TIMEOUT)
           const [ [], k ] = call(Voter.showOutcome);
           k( TIMEOUT );
+        
           return [voteFor , voteAgainst]
+
+        
       });
      
     showOutcome( proposalID, voteFor, voteAgainst);
@@ -69,7 +76,11 @@ export const main = Reach.App(() => {
     const [ [], k ] = call(Voter.showOutcome);
       k(outcome);
     commit()
-    transfe(balance()).to(Governor);
+    Governor.publish()
+    if(voteFor >voteAgainst){
+      Governor.interact.callFunction()
+    }
+    transfer(balance()).to(Governor);
     commit();
   exit();
 });

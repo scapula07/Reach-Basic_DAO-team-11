@@ -4,7 +4,7 @@ const stdlib = loadStdlib(process.env);
 
 const startingBalance = stdlib.parseCurrency(100);
 
-const accGovernor= await stdlib.newTestAccount(2, startingBalance);
+const accGovernor= await stdlib.newTestAccount( startingBalance);
 console.log('Hello, Alice and Bob!');
 
 console.log('Launching...');
@@ -15,11 +15,32 @@ const ctcGovernor = accGovernor.contract(backend);
 console.log('Starting backends...');
 
 const voters=[]
-const  startingVoting=()=>{
-  
+const  startingVoting=async()=>{
+  const newAcc=async(who)=>{
   const acc = await stdlib.newTestAccount(startingBalance)
-  const ctc = acc.Contract(backend,ctcGovernor.getInfo())
-  voters
+  const ctc = acc.contract(backend,ctcGovernor.getInfo())
+  voters.push({who,acc})
+
+  const randomBoolean = Math.random() >= 0.5;
+
+  try{
+    const value = await ctc.apis.Voter.vote(randomBoolean)
+    const word = value ? "voted for" : "voted against"
+
+    console.log(`${who}  ${word} proposal`)
+  }catch(e){
+    console.log(e)
+  }
+  }
+
+  await newAcc("Bob")
+  await newAcc("Thomas")
+  await newAcc("Nick")
+  await newAcc("sam")
+  await newAcc("James")
+  await newAcc("Joy")
+  await newAcc("Jane")
+
 }
 
 
@@ -32,16 +53,18 @@ await ctcGovernor.p.Governor({
           title:"Good",
           description:"A good thing",
           ticketPrice: stdlib.parseCurrency(5),
-          deadline: 10,
+          deadline: 15,
           
         }),
   proposalReady:()=>{
     startingVoting()
   },
   showOutcome:(title, forProposal, againstProposal)=>{
-    console.log(`${title} poll outcome: ${ forProposal} to ${againstProposal}`)
+    console.log(` alice saw proposal ${title} poll outcome: ${ forProposal} to ${againstProposal}`)
+  },
+  showTimeout:(timeout)=>{
+    console.log(`${timeout} dealine reach `)
   }
-
 })
 
 console.log('Goodbye, Alice and Bob!');
