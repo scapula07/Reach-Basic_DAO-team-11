@@ -11,7 +11,7 @@ import Proposal from './pages/proposal';
 import Home from './pages/home';
 import { loadStdlib } from '@reach-sh/stdlib';
 import { ALGO_MyAlgoConnect as MyAlgoConnect } from '@reach-sh/stdlib';
-import * as backend from './reach-basic-dao/build/index.main.mjs'
+import * as backend from './reach-app/build/index.main.mjs'
 
 
 const reach = loadStdlib('ALGO');

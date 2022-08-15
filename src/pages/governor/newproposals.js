@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import { loadStdlib } from '@reach-sh/stdlib';
-import * as backend from '../../reach-basic-dao/build/index.main.mjs'
+import * as backend from '../../reach-app/build/index.main.mjs'
 import { AccountState } from '../../recoilState/globalState';
 import { useRecoilValue,useRecoilState } from 'recoil';
 import Modal from "../../components/modal"

@@ -4,7 +4,7 @@ import {AiOutlineCloseCircle} from "react-icons/ai"
 import { AccountState } from '../../recoilState/globalState';
 import { loadStdlib } from '@reach-sh/stdlib';
 import { ALGO_MyAlgoConnect as MyAlgoConnect } from '@reach-sh/stdlib';
-import * as backend from '../../reach-basic-dao/build/index.main.mjs'
+
 import { ALGO_WalletConnect as WalletConnect } from '@reach-sh/stdlib';
 import { ALGO_PeraConnect as PeraConnect } from '@reach-sh/stdlib';
 import {useRecoilState} from "recoil"

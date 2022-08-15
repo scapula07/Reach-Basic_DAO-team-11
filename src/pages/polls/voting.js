@@ -6,7 +6,7 @@ import {GiVote} from "react-icons/gi"
 import {  BiRadioCircleMarked} from "react-icons/bi"
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { loadStdlib } from '@reach-sh/stdlib';
-import * as backend from '../../reach-basic-dao/build/index.main.mjs'
+import * as backend from '../../reach-app/build/index.main.mjs'
 import { AccountState} from '../../recoilState/globalState';
 import { useRecoilValue} from 'recoil';
 import { collection, onSnapshot, doc,getDocs,query, orderBy, limit } from 'firebase/firestore'
@@ -23,7 +23,7 @@ export default function Voting() {
   const [Arrayproposal,Arraysetproposal] =useState([])
   const [proposal,setProposal]=useState({})
   const [myVote,setMyvote]=useState(false)
-  
+
   const account =useRecoilValue(AccountState)
   const [ctcInfo,setctcInfo]=useState({})
   const ticketPrice=0.0
