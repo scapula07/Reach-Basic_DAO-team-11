@@ -4,10 +4,10 @@ import Header from "../components/header"
 const LayOut=({children})=>{
   return(
     <div className="flex flex-row layout">
-        <div className="w-1/6 h-screen bg-rose-500" >
+        <div className="w-1/6 h-full bg-rose-500" >
           <SideBar />
         </div>
-        <div className="page w-10/12">
+        <div className="page w-10/12 overflow-hidden">
          <Header />
         {children}
         </div>

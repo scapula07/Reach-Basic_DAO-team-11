@@ -1,6 +1,8 @@
 import { Link,Outlet } from "react-router-dom"
+import LayOut from "../../layout/layout"
 const GovernorPage=()=>{
     return(
+        <LayOut>
         <div className="polls text-white">
             <div className="filters flex pt-10 px-20">
                 <div className="flex  w-full justify-between items-center">
@@ -21,6 +23,7 @@ const GovernorPage=()=>{
             
 
         </div>
+        </LayOut>
     )
 }
 
