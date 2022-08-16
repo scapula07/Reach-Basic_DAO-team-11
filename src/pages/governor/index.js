@@ -8,7 +8,8 @@ const GovernorPage=()=>{
                 <div className="flex  w-full justify-between items-center">
                   <h5 className="w-1/4 text-4xl">Governance</h5>
               <main className="flex w-3/4 justify-end space-x-10 items-center">
-                <Link to="newproposal"><h5 className="text-sm text-black bg-white hover:text-white hover:bg-rose-900 rounded-full py-0.5 px-3">New proposals</h5></Link>
+                <Link to="newproposal"><h5 className="text-sm text-black bg-white hover:text-white hover:bg-rose-900 rounded-full py-0.5 px-3">New proposal</h5></Link>
+                <Link to="yourproposal"> <h5 className="text-sm">Your proposal</h5></Link>
                <Link to="passed"> <h5 className="text-sm">Passed</h5></Link>
               <Link to="rejected"><h5 className="text-sm">Rejected</h5></Link>  
               </main>

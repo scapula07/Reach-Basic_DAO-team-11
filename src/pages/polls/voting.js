@@ -23,7 +23,8 @@ export default function Voting() {
   const [Arrayproposal,Arraysetproposal] =useState([])
   const [proposal,setProposal]=useState({})
   const [myVote,setMyvote]=useState(false)
-
+   const [hasVoted,setHasvoted]=useState(false)
+   const [choice,setChoice]=useState(false)
   const account =useRecoilValue(AccountState)
   const [ctcInfo,setctcInfo]=useState({})
   const ticketPrice=0.0
@@ -57,17 +58,26 @@ export default function Voting() {
     const submitVote=async()=>{
       try{
          const value = await connectedCtc.current.apis.Voter.vote(myVote)
+         setChoice(value)
          console.log(value,"resultfrom")
       }catch(e){
          console.log(e)
       }
-    
-     
-          setCanVote(false)
-          setTrigger(false)
+          
+      setHasvoted(true)
+         
     }
+     const ok=()=>{
+         setCanVote(false)
+
+          setTrigger(false)
+     }
+     const showVoteOutcome=()=>{
+
+     }
 
     console.log(ctcInfo,typeof(ctcInfo))
+
   return (
     <div>
 
@@ -105,9 +115,9 @@ export default function Voting() {
                 <h5 className='text-sm '>Maximum voting period</h5>
                 <h5 className='text-sm font-light'>{" 10 days"}</h5>
              </main>
-             <main className='flex flex-col items-center'>
-                <h5 className='text-sm '>Voting period</h5>
-                <h5 className='text-sm font-light'>{`${deadline} days`}</h5>
+             <main onClick={showVoteOutcome} className='flex flex-col items-center bg-slate-700 px-3 py-0.5 rounded-lg shadow-lg hover:bg-slate-900 active:bg-white'>
+                <h5 className='text-sm text-slate-400 '>Voting Outcome</h5>
+                <h5 className='text-sm font-light'>{`0/0`}</h5>
              </main>
 
            </div>
@@ -137,7 +147,10 @@ export default function Voting() {
                 {canVote===true&&
                  <div className='flex flex-col justify-center items-center space-y-4'>
                     <GiVote  className='text-7xl'/>
+                    {hasVoted===false&&
+                      <>
                     <h5>Your Vote</h5>
+                   
                     <main className='radio-item flex space-x-4'>
                       <h5 className='h-5 w-5  hover:bg-green-900 active:bg-white rounded-full flex justify-center items-center' onClick={()=>setMyvote(true)}>< BiRadioCircleMarked className='text-3xl text-green-500'/></h5>
                       <h5 className='h-5 w-5 hover:bg-rose-900 rounded-full flex justify-center items-center active:bg-white ' onClick={()=>setMyvote(false)}>< BiRadioCircleMarked  className='text-3xl text-rose-700'/></h5>
@@ -146,6 +159,16 @@ export default function Voting() {
                        
                        <button onClick={submitVote} className="rounded-full py-0.5 px-3 hover:bg-white hover:text-black border text-sm">Submit</button>
                        <h5 className='text-xs'>Deposit Needed: {`${proposal.price} Algo`}</h5>
+                       </>
+                    }
+
+                    {hasVoted===true&&
+                      <>
+                      <p className='px-2 text-sm'>{`You voted in  ${choice==true?"support":"against"} of proposal ID:#{proposal.proposalId}`}</p>
+                      <button className="px-3 py-0.5 border text-sm" onClick={ok}>Ok</button>
+                      </>
+
+                     }
                  </div>
                 }  
                </div>

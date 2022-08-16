@@ -8,6 +8,7 @@ import Passed from './pages/polls/passed';
 import Rejected from './pages/polls/rejected';
 import NewProposals from './pages/governor/newproposals';
 import Proposal from './pages/proposal';
+import Yourproposal from './pages/governor/yourproposal';
 import Home from './pages/home';
 import { loadStdlib } from '@reach-sh/stdlib';
 import { ALGO_MyAlgoConnect as MyAlgoConnect } from '@reach-sh/stdlib';
@@ -29,6 +30,9 @@ function App() {
             </Route>
             <Route  exact path="/governor"  element={< GovernorPage />} >
             <Route  exact path="newproposal"  element={< NewProposals/>} />
+
+            <Route  exact path="yourproposal"  element={<  Yourproposal />} />
+           
             <Route  exact path="passed"  element={< Passed />} />
             <Route  exact path="rejected"  element={< Rejected/>} />
             </Route>

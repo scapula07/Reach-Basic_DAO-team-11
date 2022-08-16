@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import { loadStdlib } from '@reach-sh/stdlib';
 import * as backend from '../../reach-app/build/index.main.mjs'
-import { AccountState } from '../../recoilState/globalState';
+import { AccountState,TimeoutState,PollState, DaoState  } from '../../recoilState/globalState';
 import { useRecoilValue,useRecoilState } from 'recoil';
 import Modal from "../../components/modal"
 import {AiOutlineCloseCircle} from "react-icons/ai" 
@@ -17,7 +17,9 @@ export default function NewProposals() {
     const [Id,setID]=useState("")
     const [title,setTitle]=useState("")
     const [description,setDescription]=useState("")
-    // const [ctInfo,setcInfo]=useState({})
+    const [timeout,setTimeout]=useRecoilState(TimeoutState )
+    const [daoState,setDaostate]=useRecoilState( DaoState )
+    const [pollOutcome,setPollOutcome]=useRecoilState(PollState  )
     const [price,setPrice]=useState("")
     const [proposalReady,setReady]=useState("")
     const [trigger,setTrigger] =useState(false)
@@ -41,9 +43,13 @@ export default function NewProposals() {
       },
     showOutcome:(title, forProposal, againstProposal)=>{
        console.log(` alice saw proposal ${title} poll outcome: ${ forProposal} to ${againstProposal}`)
-     },
+       const dao=forProposal >2?"passed":"rejected"
+       setDaostate(dao)
+       setPollOutcome(`${ forProposal} to ${againstProposal}`)
+      },
     showTimeout:(timeout)=>{
        console.log(`${timeout} dealine reach `)
+       setTimeout("Dealine reached")
     }
    }
    setTrigger(true)
@@ -80,6 +86,8 @@ export default function NewProposals() {
       });
       console.log("pushed to firebase")
       console.log(docRef)
+    
+       
 
    setID("")
    setTitle("")

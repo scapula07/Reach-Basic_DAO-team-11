@@ -7,7 +7,19 @@ export const AccountState = atom({
 
 
 
-export const TutorsState =atom({
-  key:"Tutors",
-  default:[]
+export const TimeoutState =atom({
+  key:"Timeout",
+  default:"Ongoing"
+})
+
+
+export const PollState =atom({
+  key:"Poll",
+  default:"counting..."
+})
+
+
+export const DaoState =atom({
+  key:"Dao",
+  default:"rejected"
 })
