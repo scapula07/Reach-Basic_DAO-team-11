@@ -3,7 +3,7 @@ import { collection, onSnapshot, doc,getDocs,query, orderBy, limit, updateDoc,ad
 import { db } from '../../firebase/firebase.util'
 import proposalImg from "../../assests/proposal.png"
 
-import {TimeoutState,PollState,  DaoState  } from '../../recoilState/globalState';
+import {TimeoutState,PollState,  DaoState,ExternalFunctionState   } from '../../recoilState/globalState';
 import { useRecoilValue } from 'recoil';
 
 export default function Yourproposal() {
@@ -12,6 +12,7 @@ export default function Yourproposal() {
     const timeout=useRecoilValue(TimeoutState )
     const pollOutcome=useRecoilValue(PollState )
     const dao=useRecoilValue( DaoState )
+    const externalfunc=useRecoilValue( ExternalFunctionState   )
     const [updated,setUpdate]=useState(false)
 
     useEffect(()=>{
@@ -68,7 +69,7 @@ export default function Yourproposal() {
   return (
     <div>
          <div className=''>
-              <main className='flex justify-end w-full items-center'><h5>{timeout}</h5></main>
+              <main className='flex justify-end w-full items-center text-yellow-600'><h5>{timeout}</h5></main>
                  <div className='flex flex-col items-center justify-center space-y-4'>
                      <img src={proposalImg} alt="" className='bg-white h-8 w-8 rounded-full'/>
                      <h5>Proposal ID: #{proposal.proposalId}</h5>
@@ -79,6 +80,7 @@ export default function Yourproposal() {
                     {updated===true&& <h5>Broadcasted</h5>}
                  </div>
               </div>
+              <main  className='flex justify-start w-full items-center p-y-4'><h5>{externalfunc}</h5></main>
 
     </div>
   )

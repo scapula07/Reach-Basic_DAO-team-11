@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import { loadStdlib } from '@reach-sh/stdlib';
 import * as backend from '../../reach-app/build/index.main.mjs'
-import { AccountState,TimeoutState,PollState, DaoState  } from '../../recoilState/globalState';
+import { AccountState,TimeoutState,PollState, DaoState ,ExternalFunctionState } from '../../recoilState/globalState';
 import { useRecoilValue,useRecoilState } from 'recoil';
 import Modal from "../../components/modal"
 import {AiOutlineCloseCircle} from "react-icons/ai" 
@@ -13,6 +13,7 @@ const reach = loadStdlib('ALGO');
 export default function NewProposals() {
     const account =useRecoilValue(AccountState)
     const [ctcInfo,setCtcInfo] =useState("")
+    const [calledFun,setCalledFunc] =useRecoilState(ExternalFunctionState )
     const [ArrayctcInfo,setArrayctcInfo]=useState([])
     const [Id,setID]=useState("")
     const [title,setTitle]=useState("")
@@ -53,6 +54,7 @@ export default function NewProposals() {
     },
     callFunction:()=>{
       console.log("External function has been called")
+      setCalledFunc("External function has been called")
     },
    }
    setTrigger(true)

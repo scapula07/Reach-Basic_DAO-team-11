@@ -23,3 +23,9 @@ export const DaoState =atom({
   key:"Dao",
   default:"rejected"
 })
+
+
+export const ExternalFunctionState =atom({
+  key:"extenalfunc",
+  default:""
+})
