@@ -19,6 +19,7 @@ const reach = loadStdlib('ALGO');
 export default function Voting() {
  const connectedCtc = useRef();
   const [trigger,setTrigger] =useState(false)
+  const [outCome,setOutcome] =useState(NaN)
   const [canVote,setCanVote] =useState(false)
   const [Arrayproposal,Arraysetproposal] =useState([])
   const [proposal,setProposal]=useState({})
@@ -51,7 +52,7 @@ export default function Voting() {
      const attach=(contractInfo) => {
      
        connectedCtc.current = account.contract(backend, JSON.parse(contractInfo));
-       console.log(connectedCtc.current)
+       //console.log(connectedCtc.current)
        setCanVote(true)
     }
 
@@ -73,10 +74,17 @@ export default function Voting() {
           setTrigger(false)
      }
      const showVoteOutcome=()=>{
-
+      try{
+         const outcome =connectedCtc.current.apis.Voter.showOutcome()
+         setOutcome(outcome)
+      }catch(e){
+         console.log(e)
+      }
+     
      }
 
     console.log(ctcInfo,typeof(ctcInfo))
+    const Outcomes=["Motion supported ","Motion rejected"]
 
   return (
     <div>
@@ -115,9 +123,9 @@ export default function Voting() {
                 <h5 className='text-sm '>Maximum voting period</h5>
                 <h5 className='text-sm font-light'>{" 10 days"}</h5>
              </main>
-             <main onClick={showVoteOutcome} className='flex flex-col items-center bg-slate-700 px-3 py-0.5 rounded-lg shadow-lg hover:bg-slate-900 active:bg-white'>
+             <main onClick={ showVoteOutcome} className='flex flex-col items-center bg-slate-700 px-3 py-0.5 rounded-lg shadow-lg hover:bg-slate-900 active:bg-white'>
                 <h5 className='text-sm text-slate-400 '>Voting Outcome</h5>
-                <h5 className='text-sm font-light'>{`0/0`}</h5>
+                <h5 className='text-sm font-light'>{Outcomes[Number(outCome)]}</h5>
              </main>
 
            </div>

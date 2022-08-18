@@ -50,7 +50,10 @@ export default function NewProposals() {
     showTimeout:(timeout)=>{
        console.log(`${timeout} dealine reach `)
        setTimeout("Dealine reached")
-    }
+    },
+    callFunction:()=>{
+      console.log("External function has been called")
+    },
    }
    setTrigger(true)
   try{
