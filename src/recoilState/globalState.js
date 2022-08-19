@@ -31,6 +31,6 @@ export const ExternalFunctionState =atom({
 })
 
 export const PollCountState =atom({
-  key:"pollCount",
+  key:"voteCount",
   default:{}
 })

@@ -94,21 +94,23 @@ export default function Voting() {
 
         <div className="vote shadow-md shadow-slate-800 rounded-lg min-h-min  p-4 hover:shadow-slate-400">
            {Arrayproposal.length>0&&(
-            <Link to={`/proposal/${proposal.id}`}
-            state={{
-               proposal
-                 }}
-            >
+         
               <div className=''>
                  <div className='flex flex-col items-center justify-center space-y-4'>
+                 <Link to={`/proposal/${proposal.id}`}
+                state={{
+                    proposal
+                   }}
+                 >
                      <img src={proposalImg} alt="" className='bg-white h-8 w-8 rounded-full'/>
+                     </Link>
                      <h5>Proposal ID: #{proposal.proposalId}</h5>
                      <h5>Title: {proposal.title}</h5>
                      <p>Description: {proposal.description}</p>
                      <button onClick={()=>setTrigger(true)} className='border rounded-full py-0.5 text-sm px-3 hover:bg-rose-800 hover:border-0'>Vote</button>
                  </div>
               </div>
-            </Link>
+           
            )
 
            }
@@ -181,7 +183,7 @@ export default function Voting() {
 
                     {hasVoted===true&&
                       <>
-                      <p className='px-2 text-sm'>{`You voted in  ${choice==true?"support":"against"} of proposal ID:#{proposal.proposalId}`}</p>
+                      <p className='px-2 text-sm'>{`You voted in  ${choice==true?"support":"against"} of proposal ID:#${proposal.proposalId}`}</p>
                       <button className="px-3 py-0.5 border text-sm" onClick={ok}>Ok</button>
                       </>
 

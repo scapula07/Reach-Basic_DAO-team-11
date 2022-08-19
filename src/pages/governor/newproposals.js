@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { loadStdlib } from '@reach-sh/stdlib';
 import * as backend from '../../reach-app/build/index.main.mjs'
 import { AccountState,TimeoutState,PollState, DaoState ,ExternalFunctionState ,PollCountState} from '../../recoilState/globalState';
@@ -29,6 +29,15 @@ export default function NewProposals() {
     
     console.log(Id,title,description,price,">>>>>>")
 
+    useEffect(()=>{
+      const getBal =async()=>{
+       //const amt=await stdlib.formatCurrency(await stdlib.balanceOf(account ))
+       //console.log(amt)
+      }
+
+
+    },[])
+
 
     const deployContract = async () => {
 
@@ -37,11 +46,11 @@ export default function NewProposals() {
         getProposal: () => ({
           proposalID:Number(Id),
           ticketPrice:reach.parseCurrency(Number(price)),
-          deadline: 60,
+          deadline: 50,
           
         }),
      proposalReady:()=>{
-         setReady("Contract is deployed to the chain")
+         setReady("Poll is open for voting")
       },
     showOutcome:(title, forProposal, againstProposal)=>{
        console.log(` alice saw proposal ${title} poll outcome: ${ forProposal} to ${againstProposal}`)
@@ -70,7 +79,7 @@ export default function NewProposals() {
       setArrayctcInfo([JSON.stringify(cInfo,null,2)])
       setCtcInfo(JSON.stringify(cInfo,null,2))
     
-       setErrorMsg("Contract Deployed")
+      
     }catch(e){
   console.log(e)
   setErrorMsg(e.message)
@@ -183,7 +192,7 @@ export default function NewProposals() {
                     
                        <h5>{ArrayctcInfo[0]}</h5>
                        <h5>{ErrorMsg}</h5>
-                      
+                      <h5>{proposalReady}</h5>
                       <button className='rounded-full hover:text-black py-0.5 px-3 text-sm border hover:bg-white'
                        onClick={AddToProposal}
                       >ok</button>
