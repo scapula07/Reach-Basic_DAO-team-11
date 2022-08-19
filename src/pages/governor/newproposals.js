@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import { loadStdlib } from '@reach-sh/stdlib';
 import * as backend from '../../reach-app/build/index.main.mjs'
-import { AccountState,TimeoutState,PollState, DaoState ,ExternalFunctionState } from '../../recoilState/globalState';
+import { AccountState,TimeoutState,PollState, DaoState ,ExternalFunctionState ,PollCountState} from '../../recoilState/globalState';
 import { useRecoilValue,useRecoilState } from 'recoil';
 import Modal from "../../components/modal"
 import {AiOutlineCloseCircle} from "react-icons/ai" 
@@ -14,6 +14,7 @@ export default function NewProposals() {
     const account =useRecoilValue(AccountState)
     const [ctcInfo,setCtcInfo] =useState("")
     const [calledFun,setCalledFunc] =useRecoilState(ExternalFunctionState )
+    const [pollCount,setPollCount] =useRecoilState(PollCountState )
     const [ArrayctcInfo,setArrayctcInfo]=useState([])
     const [Id,setID]=useState("")
     const [title,setTitle]=useState("")
@@ -47,6 +48,10 @@ export default function NewProposals() {
        const dao=forProposal >2?"passed":"rejected"
        setDaostate(dao)
        setPollOutcome(`${ forProposal} to ${againstProposal}`)
+       setPollCount({
+          yes:forProposal,
+          no:againstProposal
+       })
       },
     showTimeout:(timeout)=>{
        console.log(`${timeout} dealine reach `)

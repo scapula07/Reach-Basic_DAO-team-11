@@ -12,7 +12,7 @@ import { useRecoilValue} from 'recoil';
 import { collection, onSnapshot, doc,getDocs,query, orderBy, limit } from 'firebase/firestore'
 import { db } from '../../firebase/firebase.util'
 import "./polls.css"
-
+import { Link } from 'react-router-dom'
 
 const reach = loadStdlib('ALGO');
 
@@ -73,15 +73,18 @@ export default function Voting() {
 
           setTrigger(false)
      }
-     const showVoteOutcome=()=>{
+
+     const showVoteOutcome=async()=>{
       try{
-         const outcome =connectedCtc.current.apis.Voter.showOutcome()
+         const outcome = await connectedCtc.current.apis.Voter.showOutcome()
+         console.log(outcome,"outcome ")
          setOutcome(outcome)
       }catch(e){
          console.log(e)
-      }
+      
      
      }
+   }
 
     console.log(ctcInfo,typeof(ctcInfo))
     const Outcomes=["Motion supported ","Motion rejected"]
@@ -89,8 +92,13 @@ export default function Voting() {
   return (
     <div>
 
-        <div className="vote shadow-md shadow-slate-800 rounded-lg min-h-min  p-4">
+        <div className="vote shadow-md shadow-slate-800 rounded-lg min-h-min  p-4 hover:shadow-slate-400">
            {Arrayproposal.length>0&&(
+            <Link to={`/proposal/${proposal.id}`}
+            state={{
+               proposal
+                 }}
+            >
               <div className=''>
                  <div className='flex flex-col items-center justify-center space-y-4'>
                      <img src={proposalImg} alt="" className='bg-white h-8 w-8 rounded-full'/>
@@ -100,6 +108,7 @@ export default function Voting() {
                      <button onClick={()=>setTrigger(true)} className='border rounded-full py-0.5 text-sm px-3 hover:bg-rose-800 hover:border-0'>Vote</button>
                  </div>
               </div>
+            </Link>
            )
 
            }

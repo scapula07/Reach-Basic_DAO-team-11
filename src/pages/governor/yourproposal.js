@@ -3,7 +3,7 @@ import { collection, onSnapshot, doc,getDocs,query, orderBy, limit, updateDoc,ad
 import { db } from '../../firebase/firebase.util'
 import proposalImg from "../../assests/proposal.png"
 
-import {TimeoutState,PollState,  DaoState,ExternalFunctionState   } from '../../recoilState/globalState';
+import {TimeoutState,PollState,  DaoState,ExternalFunctionState ,PollCountState  } from '../../recoilState/globalState';
 import { useRecoilValue } from 'recoil';
 
 export default function Yourproposal() {
@@ -12,6 +12,7 @@ export default function Yourproposal() {
     const timeout=useRecoilValue(TimeoutState )
     const pollOutcome=useRecoilValue(PollState )
     const dao=useRecoilValue( DaoState )
+    const pollCount=useRecoilValue( PollCountState )
     const externalfunc=useRecoilValue( ExternalFunctionState   )
     const [updated,setUpdate]=useState(false)
 
@@ -50,7 +51,7 @@ export default function Yourproposal() {
                 price:proposal.price,
                 dao:"passed",
                 pollResult:pollOutcome,
-               
+                pollCount
                
                 });
           }else{
@@ -61,7 +62,7 @@ export default function Yourproposal() {
                 price:proposal.price,
                 dao:"rejected",
                 pollResult:pollOutcome,
-               
+                pollCount
                
                 });
           }

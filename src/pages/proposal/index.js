@@ -1,7 +1,12 @@
-import React from 'react'
+import React,{useState} from 'react'
 import algoImg from "../../assests/algo.png"
 import LayOut from '../../layout/layout'
+import { useLocation,useParams} from "react-router-dom";
+
+
 export default function Proposal() {
+  const location =useLocation()
+  const [locationState,setlocationState] = useState(location.state)
   return (
     <LayOut>
     <div className='proposal-detail text-white px-20 py-4'>
@@ -13,7 +18,7 @@ export default function Proposal() {
         <main>
             <div className='flex flex-col shadow-md p-4 rounded-lg '>
                  <main className='flex justify-between'>
-                  <h5 className='text-sm'>ID:{"xs7bc6"}</h5>
+                  <h5 className='text-sm'>ID:{locationState.proposal.id}</h5>
                   <h5 className='text-sm text-yellow-300'>{"Ongoing"}</h5>
                   </main>
                  <main className='flex flex-col py-4 space-y-2'>
@@ -22,7 +27,7 @@ export default function Proposal() {
                  </main>
 
                  <main className='py-4'>
-                    <p className='px-2'>{"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. "}</p>
+                    <p className='px-2'>{locationState.proposal.description}</p>
                  </main>
               </div>
         </main>
@@ -32,7 +37,7 @@ export default function Proposal() {
                 <main className='flex flex-col items-center justify-center py-8 space-y-1' >
                     <div className='rounded-full h-24 w-24  bg-slate-900 flex items-center justify-center'>
                           <h5 className='flex space-x-1 items-center'>
-                            <span>{"0"} </span>
+                            <span>{locationState.proposal.price} </span>
                             <img src={algoImg} alt="algo" className='bg-slate-600 h-4 w-4 rounded-full'/>
                           </h5>
                     </div>
@@ -41,7 +46,7 @@ export default function Proposal() {
                 <main className='flex px-4 justify-center space-x-12 items-center pb-3 '>
                    <h5 className='flex flex-col space-y-1'>
                        <span className='text-sm font-semibold'>Deposited</span>
-                       <span className='text-xs'>{"0.00 Algo"}</span>
+                       <span className='text-xs'>{`${locationState.proposal.price} Algo`}</span>
                    </h5>
                    <h5 className='flex flex-col space-y-1'>
                        <span className='text-sm font-semibold'>Recipient</span>

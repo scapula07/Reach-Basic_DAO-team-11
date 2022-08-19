@@ -19,7 +19,7 @@ const Home=()=>{
                 <main className="flex items-center space-x-8">
                <Link to="/"> <h5 className=""><span className="text-white text-sm">Home</span></h5></Link> 
                <Link to="/polls/voting"> <h5 className=""><span className="text-white text-sm">Polls</span></h5></Link> 
-               <Link to="/governor"> <h5 className=""><span className="text-white text-sm">Governor</span></h5></Link> 
+               <Link to="/governor/newproposal"> <h5 className=""><span className="text-white text-sm">Governor</span></h5></Link> 
                <Link to="/periods"> <h5 className=""><span className="text-white text-sm">Periods</span></h5></Link>  
                 </main>
                 
@@ -39,7 +39,7 @@ const Home=()=>{
                       <main className="flex space-x-8">
                          <ConnectAccount />
                          <button className="px-3 py-0.5 bg-rose-900 rounded-full shadow text-sm hover:bg-black ">
-                            Get Started
+                            <Link to="/governor/newproposal">Get Started</Link>
                          </button>
                       </main>
                   </main>

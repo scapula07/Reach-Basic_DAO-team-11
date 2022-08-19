@@ -29,3 +29,8 @@ export const ExternalFunctionState =atom({
   key:"extenalfunc",
   default:""
 })
+
+export const PollCountState =atom({
+  key:"pollCount",
+  default:{}
+})
