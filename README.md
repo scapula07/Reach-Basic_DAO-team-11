@@ -85,6 +85,42 @@ Our dapp contracts is designed in such a way as to allow keeping track of counts
    
    ## Scaffolding and setup
    
-   In this tutorial, we'll be building a version of Rock, Paper, Scissors! where two players, Alice and Bob, can wager on the result of the game. We'll start simple and slowly make the application more fully-featured
+  In this tutorial, we'll be walking you step-by-step on how to build your own version of our dapp. We'll start simple and slowly make the application more fully-featured.Okay!
+   
+ You should follow along by copying-pasting or coding  each part of the program ,to get a feel of writing a reach program.
+   
+ Our first step is inside the project folder, initialize our project to create index.mjs and index.rsh with some boilerplate code. Do this by running the below command in the terminal.
+ 
+ ```
+     $.../reach init
+
+    Writing index.rsh...
+    Writing index.mjs...
+    Done.
+ 
+ 
+ ```
+ 
+ ../reach init create a index.rsh file which is the file where our backend code will be written, and index.mjs file where our frontend code will be written. If you open these files, you will see the scaffolding structure for reach that Reach Init has created for us.
+  
+
+Here is the index.rsh which is the backend of our Dapp.
+
+```
+      'reach 0.1';
+   export const main = Reach.App(() => {
+     const Alice = Participant('Alice', {
+       // Specify Alice's interact interface here
+     });
+     const Bob   = Participant('Bob', {
+      // Specify Bob's interact interface here
+     });
+     init();
+     // write your program here
+   });
+
+
+```
+
 
 
