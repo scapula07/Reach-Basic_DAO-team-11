@@ -196,7 +196,8 @@ Here is the index.rsh which is the backend of our Dapp.
         })
            
     ```
-  
+    - Line 2 ,defines a participant called the Governor .You can check the [reach docs](https://docs.reach.sh/rsh/appinit/#rsh_Participant) for details
+    - Line 5, defines an API class called Voter. API is used to represent a group of participant that share common roles or functions, in our case ,all voters are a   set . for more details , [reach docs](https://docs.reach.sh/rsh/appinit/#rsh_API)
 
 
 
