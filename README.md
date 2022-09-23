@@ -108,16 +108,16 @@ Here is the index.rsh which is the backend of our Dapp.
 
 ```
       'reach 0.1';
-   export const main = Reach.App(() => {
-     const Alice = Participant('Alice', {
-       // Specify Alice's interact interface here
-     });
-     const Bob   = Participant('Bob', {
-      // Specify Bob's interact interface here
-     });
-     init();
-     // write your program here
-   });
+   1 export const main = Reach.App(() => {
+   2  const Alice = Participant('Alice', {
+   3    // Specify Alice's interact interface here
+   4 });
+   5  const Bob   = Participant('Bob', {
+   6   // Specify Bob's interact interface here
+   7  });
+   8  init();
+   9  // write your program here
+   10 });
 
 
 ```
