@@ -121,6 +121,11 @@ Here is the index.rsh which is the backend of our Dapp.
 
 
 ```
+    Snippet above is a shell of a program that doesn't do much, but it has a few important components,below is an  explanation of what it does.
 
+    Line 1 indicates that this is a Reach program. You'll always have this at the top of every program
+    Line 3 defines the main export from the program. When you compile, this is what the compiler will look at
+    Lines 4 through 9 specify the two participants to this application, Alice and Bob.25
+    Line 10 marks the deployment of the the Reach program, which allows the program to start doing things.26
 
 
