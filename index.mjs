@@ -67,9 +67,9 @@ await ctcGovernor.p.Governor({
   proposalReady:()=>{
     startingVoting()
   },
-  showOutcome:(title, forProposal, againstProposal)=>{
-    console.log(` alice saw proposal ${title} poll outcome: ${ forProposal} to ${againstProposal}`)
-  },
+  showOutcome:(  proposalID,forProposal, againstProposal)=>{
+          console.log(` alice saw proposal #${ proposalID} poll outcome: ${ forProposal} to ${againstProposal}`)
+    },
   showTimeout:(timeout)=>{
     console.log(`${timeout} dealine reach `)
   }
