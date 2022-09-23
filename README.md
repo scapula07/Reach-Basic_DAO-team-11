@@ -132,21 +132,21 @@ Here is the index.rsh which is the backend of our Dapp.
  
  ```
    1   import { loadStdlib } from '@reach-sh/stdlib';
-   1   import * as backend from './build/index.main.mjs';
-   1   const stdlib = loadStdlib();
-      const startingBalance = stdlib.parseCurrency(100);
-      const accAlice = await stdlib.newTestAccount(startingBalance);
-      const accBob = await stdlib.newTestAccount(startingBalance);
-      const ctcAlice = accAlice.contract(backend);
-      const ctcBob = accBob.contract(backend, ctcAlice.getInfo());
-      await Promise.all([
-        ctcAlice.p.Alice({
-          // implement Alice's interact object here
-        }),
-        ctcBob.p.Bob({
-          // implement Bob's interact object here
-        }),
-      ]);
+   2   import * as backend from './build/index.main.mjs';
+   3   const stdlib = loadStdlib();
+   4   const startingBalance = stdlib.parseCurrency(100);
+   5   const accAlice = await stdlib.newTestAccount(startingBalance);
+   6   const accBob = await stdlib.newTestAccount(startingBalance);
+   7   const ctcAlice = accAlice.contract(backend);
+   8   const ctcBob = accBob.contract(backend, ctcAlice.getInfo());
+   9   await Promise.all([
+   10    ctcAlice.p.Alice({
+   11      // implement Alice's interact object here
+   12     }),
+   13     ctcBob.p.Bob({
+   14       // implement Bob's interact object here
+   15     }),
+   16   ]);
 
  ```
 
