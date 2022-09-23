@@ -7,9 +7,6 @@ export const main = Reach.App(() => {
   
     getProposal:  Fun([], Object({
       proposalID:UInt,
-      title:Bytes(200),
-      exists:Bool,
-      description:Bytes(200),
       ticketPrice: UInt,
       deadline: UInt,
 
@@ -18,6 +15,8 @@ export const main = Reach.App(() => {
   
   proposalReady: Fun([],Null), 
   showOutcome: Fun([UInt, UInt, UInt], Null),
+  callFunction:Fun([],Null),
+  showTimeout:Fun([UInt],Null)
 
 })
   const Voter= API('Voter', {  
@@ -34,9 +33,9 @@ export const main = Reach.App(() => {
    Governor.interact.showOutcome( proposalID, voteFor, voteAgainst)};
 
    Governor.only(()=>{
-     const { title, ticketPrice, deadline, proposalID}= declassify(interact.getProposal())
+     const {  ticketPrice, deadline, proposalID}= declassify(interact.getProposal())
    })
-  Governor.publish(title,ticketPrice,deadline, proposalID);
+  Governor.publish(ticketPrice,deadline, proposalID);
   commit();
   Governor.publish()
   Governor.interact.proposalReady()
@@ -47,7 +46,8 @@ export const main = Reach.App(() => {
       .invariant(balance() == (voteFor + voteAgainst) * ticketPrice)
       .while(keepGoing())
       .api_(Voter.vote, (vote) => {
-          return [0, (k) => {
+          return [ticketPrice, (k) => {
+            k(true)
               const [nF, nA] = vote ? [1, 0] : [0, 1]
               return [voteFor + nF, voteAgainst + nA]
           }]
@@ -56,10 +56,14 @@ export const main = Reach.App(() => {
       .timeout(timeRemaining(), () => {
           Anybody.publish();
           commit()
-          showOutcome(TIMEOUT , voteFor, voteAgainst);
+         // showOutcome(TIMEOUT , voteFor, voteAgainst);
+         Governor.interact.showTimeout(TIMEOUT)
           const [ [], k ] = call(Voter.showOutcome);
           k( TIMEOUT );
+        
           return [voteFor , voteAgainst]
+
+        
       });
      
     showOutcome( proposalID, voteFor, voteAgainst);
@@ -69,5 +73,11 @@ export const main = Reach.App(() => {
     const [ [], k ] = call(Voter.showOutcome);
       k(outcome);
     commit()
+    Governor.publish()
+    if(voteFor >voteAgainst){
+      Governor.interact.callFunction()
+    }
+    transfer(balance()).to(Governor);
+    commit();
   exit();
 });
