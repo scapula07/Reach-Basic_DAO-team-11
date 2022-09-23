@@ -149,7 +149,54 @@ Here is the index.rsh which is the backend of our Dapp.
    16   ]);
 
  ```
+ 
+   This JavaScript code is similarly schematic and will be consistent across all of your test programs.28
 
+   - Line 1 imports the Reach standard library loader.
+   - Line 2 imports your backend, which ./reach compile will produce.
+   - Line 3 loads the standard library dynamically based on the REACH_CONNECTOR_MODE environment variable.
+   - Line 4 defines a quantity of network tokens as the starting balance for each test account.
+   - Lines 5 and 6 create test accounts with initial endowments for Alice and Bob. This will only work on the Reach-provided developer testing network.33
+   - Line 8 has Alice deploy the application.
+   - Line 9 has Bob attach to it.
+   - Lines 10 through 12 initialize a backend for Alice.
+   - Lines 13 through 15 initialize a backend for Bob.
+   - Line 9 waits for the backends to complete.
+
+  This is now enough for Reach to compile and run our program. Let's try by running
+ 
+  ```
+    $ ./reach run
+  
+  ```
+ Reach should now build and launch a Docker container for this application. Since the application doesn't do anything, you'll just see a lot of diagnostic messages though, so that's not very exciting.
+ 
+ ## Getting Started : Reach Basic DAO implementation
+ 
+    In this section, We will implement the logic of the Reach Basic DAO. We will start by modifying the index.rsh file to better suit our dapp.
+    
+    We will represent the two major participants in our Dapp as ;
+    
+    - Governor : who create and submit a proposal for voting.
+    - Voter  : who votes in favor or against a certain proposal.
+    
+    Our modified reach program would look like the below;
+    
+    ``` 
+       1  export const main = Reach.App(() => {
+       2 const Governor= Participant('Governor', {
+       3  // Specify Governor's interact interface here
+       4   })
+       5  const Voter= API('Voter', {  
+       6     // Specify Voter's interact interface here
+       7   
+       8  })
+         
+       9  init();
+        })
+           
+    ```
+  
 
 
 
