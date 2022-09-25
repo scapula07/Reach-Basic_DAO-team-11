@@ -16,6 +16,8 @@ console.log('Starting backends...');
 
 const voters=[]
 
+const outcome =["Motion supported ","Moton debunked"]
+
 let done = false; // <---------------------------- This was added to ensure the code will wait
 
 const  startingVoting=async()=>{
@@ -58,9 +60,9 @@ const  startingVoting=async()=>{
            const ctc = acc.contract(backend,ctcGovernor.getInfo());
   
            try {
-            const  [voteFor,voteAgainst]= await ctc.apis.Voter.showOutcome()
+            const  res= await ctc.apis.Voter.showOutcome()
             
-            console.log(` ${who} saw poll result :${voteFor} to ${voteAgainst}`)
+            console.log(` ${who} saw poll outcome: ${outcome[res]}`)
 
 
           } catch (error) {
