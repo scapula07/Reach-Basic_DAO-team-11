@@ -417,7 +417,185 @@ For our parallelReduce block, we want to monitor and change the values of two va
 
 .api_ takes two argument , an expression that evaluate to a function in the API interface i.e vote and a callBack function. 
 
-The first callback function of the .api_ block returns an array of 
+The first callback function of the .api_ block returns an array, which contains the **ticketPrice** which is payed into the contract by each voter and a second callback funtion that does a small computation for voting.
 
+The second callback function returns an array of items which then update the parallelReduce variables. The k(true ) sends a boolean of true back to the frontend.
+
+
+We add a timeout block to our parallelReduce , which is to run when the deadline is reached.But before look at this block of code, we first add more functions to our Governor and Voter interact interface;
+
+````
+   const Governor= Participant('Governor', {
+   
+    
+   13 callFunction:Fun([],Null),
+   14 showTimeout:Fun([UInt],Null)
+   15
+   16 })
+   18
+   19  const Voter= API('Voter', {  
+   20  // Specify Bob's interact interface here
+   21
+   22  showOutcome:Fun([],UInt)
+   23  })
+     
+
+````
+
+
+ - Lines 13 through 16 define new methods in the interact interface of the Governor;
+     1.  callFunction : returns nothing .It used by the Governor to call external function as proscribed by the project description.
+    
+    2.  showTimeout: takes an unsigned integer and returns nothing .It used to inform the Govenror of a timeout i.e when the deadline is reached.
+    
+ -  Line 22 ,is an added method in our Voter interface, which informs each voter of the outcome of the votes.
+ 
+ Same changes should be reflected in our frontend index.mjs
+ 
+ ```   
+      const voterSeeOutcome=()=>{
+
+          }
+
+      
+       await ctcGovernor.p.Governor({
+         showOutcome:(  proposalID,forProposal, againstProposal)=>{
+                 console.log(` alice saw proposal #${ proposalID} poll outcome: ${ forProposal} to ${againstProposal}`)
+                 voterSeeOutcome
+           },
+         showTimeout:(timeout)=>{
+           console.log(`${timeout} dealine reach `)
+         }
+       })
+
+ 
+ 
+ ```
+ 
+  The above block of javascript code is the implemenation of our new interact interface methods.The voterSeeOutcome will be implemented later.
+    
+ 
+ The below is the code timeout code block of the parallelReduce
+ 
+ 
+ 
+
+```
+   41   .timeout(timeRemaining(), () => {
+   42      Anybody.publish();
+   43      commit()
+   44       
+   45       Governor.interact.showTimeout(TIMEOUT)
+   46      const [ [], k ] = call(Voter.showOutcome);
+   47      k( TIMEOUT );
+   48     
+   49       return [voteFor , voteAgainst]
+   50      });
+
+````
+
+ - Lines 42  , Anybody.publish() means that any participant involved can publish the new state of the blockchain while Line 43 takes this block out of a consensus step back to a local step.
+ 
+ - Line 45, the Governor interact with the showTimeout method which informs the Governor that deadline is reached
+ - Line 46 through 47, returns the outcome of the voting to each user by using the **call method** of reach, this concept would be explain below.
+ - Line 49, returns an array that update the parallelReduce variables.
+ 
+    
+    
+   To show voting outcome to every participant ,we implement the lines of code below;
+ 
+ ```
+        const [ _, MOTION_WINS, MOTION_LOSE, TIMEOUT ] = makeEnum(3);
+    
+     
+         const showOutcome = ( proposalID,  voteFor, voteAgainst) => {
+    
+         Governor.interact.showOutcome( proposalID, voteFor, voteAgainst)
+    
+     };
+     
+ ````
+    
+    
+    
+    
+We make use of makeEnum() to  define three options which evaluate to an integer .These options will be used to inform our Voter and Governor of the outcome.
+
+The showOutcome function block takes three arguments.Within it, the Governor interact with the interface showoutocme method.
+ 
+ 
+ 
+ 
+ 
+ 
+   
+    ```
+     
+       51  showOutcome( proposalID, voteFor, voteAgainst);
+       52  commit()
+       53  const outcome = voteFor>= voteAgainst ? MOTION_WINS : MOTION_LOSE
+       54
+       55  const [ [], k ] = call(Voter.showOutcome);
+       56    k(outcome);
+       57   commit()
+
+ 
+ 
+ ```
+ 
+   
+   - Line 51, calls the showOutcome function implemnented shown above.
+   - Line 53, binds the variable outcome to either optons from the makeEnum.
+   
+   - Line 55 and 56, use the call function to propagate the outcome to each voter using an api call in the frontend. 
+   
+   We can now implement the voterSeeOtcome for the voter;
+   
+   ```
+     
+      const voterSeeOutcome=()=>{ 
+        voters.map(async(voter)=>{
+          const acc =voter.acc
+          const who=voter.who
+           const ctc = acc.contract(backend,ctcGovernor.getInfo());
+  
+           try {
+            const  res= await ctc.apis.Voter.showOutcome()
+            
+            console.log(` ${who} saw poll outcome: ${outcome[res]}`)
+
+
+          } catch (error) {
+           // console.log(error)
+            console.log("")
+          }
+       })
+
+      }
+   
+   
+   ```
+  
+  Nice work so far, we are at the end of our reach program. The last block of code focus on calling the extenal function by the Governor and transfer of funds in the contract to the Governors account.
+  
+  ```
+         commit()
+         Governor.publish()
+         if(voteFor >voteAgainst){
+           Governor.interact.callFunction()
+         }
+         transfer(balance()).to(Governor);
+         commit();
+       exit();
+  
+  
+  
+  ```
+   You can now run the reach program to see what happens ,
+   
+   ```
+     $ ../reach run
+   
+   ```
 
 
