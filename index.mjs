@@ -51,6 +51,26 @@ const  startingVoting=async()=>{
 
 }
 
+      const seeOutcome=()=>{ 
+        voters.map(async(voter)=>{
+          const acc =voter.acc
+          const who=voter.who
+           const ctc = acc.contract(backend,ctcGovernor.getInfo());
+  
+           try {
+            const  [voteFor,voteAgainst]= await ctc.apis.Voter.showOutcome()
+            
+            console.log(` ${who} saw poll result :${voteFor} to ${voteAgainst}`)
+
+
+          } catch (error) {
+           // console.log(error)
+            console.log("")
+          }
+       })
+
+      }
+
 
 
 
