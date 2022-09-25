@@ -5,6 +5,11 @@ This is a web3 project developed as part of Umoja3 Decentralzed Bounty hack.
 In this tutorial, i would work you through the  creation of  my submitted hack project "Reach Basic DAO".
 This project assumes no prior experience with building decentralized applications.
 
+
+![openpoll](https://firebasestorage.googleapis.com/v0/b/reach-basic-dao.appspot.com/o/homepage.PNG?alt=media&token=d9a2d52b-65f4-4341-bc02-e7b7bb2c23be)
+
+
+
 ## Table of contents
 
 1. Project Description
@@ -522,15 +527,8 @@ We add a timeout block to our parallelReduce , which is to run when the deadline
 We make use of makeEnum() to  define three options which evaluate to an integer .These options will be used to inform our Voter and Governor of the outcome.
 
 The showOutcome function block takes three arguments.Within it, the Governor interact with the interface showoutocme method.
- 
- 
- 
- 
- 
- 
-   
-    ```
-     
+
+````
        51  showOutcome( proposalID, voteFor, voteAgainst);
        52  commit()
        53  const outcome = voteFor>= voteAgainst ? MOTION_WINS : MOTION_LOSE
@@ -539,21 +537,22 @@ The showOutcome function block takes three arguments.Within it, the Governor int
        56    k(outcome);
        57   commit()
 
+
+````
  
  
- ```
- 
+
+- Line 51, calls the showOutcome function implemnented shown above.
+- Line 53, binds the variable outcome to either optons from the makeEnum.
    
-   - Line 51, calls the showOutcome function implemnented shown above.
-   - Line 53, binds the variable outcome to either optons from the makeEnum.
+- Line 55 and 56, use the call function to propagate the outcome to each voter using an api call in the frontend. 
    
-   - Line 55 and 56, use the call function to propagate the outcome to each voter using an api call in the frontend. 
-   
-   We can now implement the voterSeeOtcome for the voter;
-   
-   ```
-     
-      const voterSeeOutcome=()=>{ 
+We can now implement the voterSeeOtcome for the voter;
+
+
+
+````
+  const voterSeeOutcome=()=>{ 
         voters.map(async(voter)=>{
           const acc =voter.acc
           const who=voter.who
@@ -572,14 +571,18 @@ The showOutcome function block takes three arguments.Within it, the Governor int
        })
 
       }
-   
-   
-   ```
-  
-  Nice work so far, we are at the end of our reach program. The last block of code focus on calling the extenal function by the Governor and transfer of funds in the contract to the Governors account.
-  
-  ```
-         commit()
+
+
+````
+ 
+ 
+
+Nice work so far, we are at the end of our reach program. The last block of code focus on calling the extenal function by the Governor and transfer of funds in the contract to the Governors account.
+
+
+
+````
+    commit()
          Governor.publish()
          if(voteFor >voteAgainst){
            Governor.interact.callFunction()
@@ -588,14 +591,391 @@ The showOutcome function block takes three arguments.Within it, the Governor int
          commit();
        exit();
   
-  
-  
-  ```
-   You can now run the reach program to see what happens ,
+
+````
+ 
+You can now run the reach program to see what happens ,
+
+````
+  $ ../reach run
+
+````
+
+
+## Web interactions
    
-   ```
-     $ ../reach run
    
-   ```
+Currently, our Dapp works as a command-line application. In this section, we will make it have a web interface. React js will be used to build the web              interface, but the same principles apply to any web framework.
+   
+To complete this section we'll use the index.rsh you've already written and then create a react app folder.Run the command below
+
+
+````
+    $ npx create-react-app reach-tut-basic-dao
+````
+
+We move the reach folder into the src folder of our react app. The tree structure is a simplied version of our app structure.
+
+````
+  ├── index.css
+          ├── App.js
+          ├── reach app
+              ├── index.rsh
+              ├── index.mjs
+              ├── build
+          └── pages
+              ├── governor
+                  └── index.js
+              └──  poll
+                    └── voting.js
+          └── components
+               └──  connectAccount
+                      └── index.js 
+
+````
+
+The above pages and components contain the below major imports;
+
+````
+    1 import React,{useState} from 'react'
+    2  import { loadStdlib } from '@reach-sh/stdlib';
+    3 import { AccountState } from '../../recoilState/globalState';
+    4
+    5  const reach = loadStdlib('ALGO');
+
+````
+
+
+React compiles the Reach standard library in such a way that it does not have direct access to the environment variables which are used to select the desired standard  library. This is why you need to pass process.env as an argument to achieve the desired effect.
+
+
+###  Application components
+
+````
+  /components/connectAccount/index.js
+        ---
+        
+      import React,{useState} from 'react'
+      import Modal from "../modal"
+      import {AiOutlineCloseCircle} from "react-icons/ai"
+      import { AccountState } from '../../recoilState/globalState';
+      import { loadStdlib } from '@reach-sh/stdlib';
+      import { ALGO_MyAlgoConnect as MyAlgoConnect } from '@reach-sh/stdlib';
+
+      import { ALGO_WalletConnect as WalletConnect } from '@reach-sh/stdlib';
+      import { ALGO_PeraConnect as PeraConnect } from '@reach-sh/stdlib';
+      import {useRecoilState} from "recoil"
+      // const reach = loadStdlib('ALGO');
+      const ConnectAccount= () =>{
+        const [trigger,setTrigger] =useState(false)
+        const [account,setAccount] =useRecoilState( AccountState)
+        const [address,setAddress] =useState("")
+
+        const useMyAlgo=async(secret, mnemonic = false)=>{
+          delete window.algorand;
+          const reach = loadStdlib('ALGO');
+           reach.setWalletFallback(reach.walletFallback( { providerEnv: 'TestNet', MyAlgoConnect } ));
+           try {
+            const account = mnemonic ? await reach.newAccountFromMnemonic(secret) : await reach.getDefaultAccount();
+             console.log(account.getAddress(),"acc>>>")
+             setAccount(account)
+             setAddress(account.getAddress())
+          } catch (error) {
+
+          }
+        }
+        const usePera=async(secret, mnemonic = false)=>{
+          delete window.algorand;
+          const reach = loadStdlib('ALGO');
+           reach.setWalletFallback(reach.walletFallback( { providerEnv: 'TestNet', PeraConnect } ));
+
+           try {
+            const account = mnemonic ? await reach.newAccountFromMnemonic(secret) : await reach.getDefaultAccount();
+            console.log(account.getAddress(),"acc>>>")
+            setAccount(account)
+            setAddress(account.getAddress())
+          } catch (error) {
+
+          }
+        }
+        const useWalletConnect=async(secret, mnemonic = false)=>{
+          delete window.algorand;
+          const reach = loadStdlib('ALGO');
+           reach.setWalletFallback(reach.walletFallback( { providerEnv: 'TestNet',  WalletConnect } ));
+           try {
+            const account = mnemonic ? await reach.newAccountFromMnemonic(secret) : await reach.getDefaultAccount();
+            console.log(account.getAddress(),"acc>>>")
+            setAccount(account)
+            setAddress(account.getAddress())
+          } catch (error) {
+            console.log(error)
+          }
+        }
+
+
+````
+
+The above snippets connect our Dapp to account in MyAlgoWallet,Pera Wallet or Other Wallets using Wallet connect
+
+![connectAcc](https://firebasestorage.googleapis.com/v0/b/reach-basic-dao.appspot.com/o/connectAcc.PNG?alt=media&token=921d7d5e-772c-436a-8cdc-4914d8484fbe)
+   
+   
+````
+  /pages/governor/index.js
+        ---
+    
+ import React,{useState,useEffect} from 'react'
+import { loadStdlib } from '@reach-sh/stdlib';
+import * as backend from '../../reach-app/build/index.main.mjs'
+import { AccountState,TimeoutState,PollState, DaoState ,ExternalFunctionState ,PollCountState} from '../../recoilState/globalState';
+import { useRecoilValue,useRecoilState } from 'recoil';
+import Modal from "../../components/modal"
+import {AiOutlineCloseCircle} from "react-icons/ai" 
+import { collection, setDoc,doc,getDoc,addDoc} from  'firebase/firestore'
+import { db } from '../../firebase/firebase.util.js';
+
+const reach = loadStdlib('ALGO');
+
+export default function NewProposals() {
+    const account =useRecoilValue(AccountState)
+    const [ctcInfo,setCtcInfo] =useState("")
+    const [calledFun,setCalledFunc] =useRecoilState(ExternalFunctionState )
+    const [pollCount,setPollCount] =useRecoilState(PollCountState )
+    const [ArrayctcInfo,setArrayctcInfo]=useState([])
+    const [Id,setID]=useState("")
+    const [title,setTitle]=useState("")
+    const [description,setDescription]=useState("")
+    const [timeout,setTimeout]=useRecoilState(TimeoutState )
+    const [daoState,setDaostate]=useRecoilState( DaoState )
+    const [pollOutcome,setPollOutcome]=useRecoilState(PollState  )
+    const [price,setPrice]=useState("")
+    const [proposalReady,setReady]=useState("")
+    const [trigger,setTrigger] =useState(false)
+    const [ErrorMsg,setErrorMsg]=useState("")
+    
+    console.log(Id,title,description,price,">>>>>>")
+
+    useEffect(()=>{
+      const getBal =async()=>{
+       //const amt=await stdlib.formatCurrency(await stdlib.balanceOf(account ))
+       //console.log(amt)
+      }
+
+
+    },[])
+
+
+    const deployContract = async () => {
+
+        console.log("deploying")
+      const deployerInteract = {
+        getProposal: () => ({
+          proposalID:Number(Id),
+          ticketPrice:reach.parseCurrency(Number(price)),
+          deadline: 50,
+          
+        }),
+     proposalReady:()=>{
+         setReady("Poll is open for voting")
+      },
+    showOutcome:(title, forProposal, againstProposal)=>{
+       console.log(` alice saw proposal ${title} poll outcome: ${ forProposal} to ${againstProposal}`)
+       const dao=forProposal >2?"passed":"rejected"
+       setDaostate(dao)
+       setPollOutcome(`${ forProposal} to ${againstProposal}`)
+       setPollCount({
+          yes:forProposal,
+          no:againstProposal
+       })
+      },
+    showTimeout:(timeout)=>{
+       console.log(`${timeout} dealine reach `)
+       setTimeout("Dealine reached")
+    },
+    callFunction:()=>{
+      console.log("External function has been called")
+      setCalledFunc("External function has been called")
+    },
+   }
+   setTrigger(true)
+  try{
+    const contract = account.contract(backend);
+    backend.Governor(contract, deployerInteract);
+      const cInfo = await contract.getInfo();
+      setArrayctcInfo([JSON.stringify(cInfo,null,2)])
+      setCtcInfo(JSON.stringify(cInfo,null,2))
+    
+      
+    }catch(e){
+  console.log(e)
+  setErrorMsg(e.message)
+   }
+
+   
+   
+
+  
+  }
+  const AddToProposal= async()=>{
+     console.log("pushing to firebase")
+     setTrigger(false)
+    const docRef = await addDoc(collection(db, "proposals"), {
+      proposalId:Id,
+      title:title,
+      description:description,
+      ctcInfo:ctcInfo,
+      price:price,
+      date:Number(Date.now())
+     
+     
+      });
+      console.log("pushed to firebase")
+      console.log(docRef)
+    
+       
+
+   setID("")
+   setTitle("")
+   setDescription("")
+ 
+   setPrice("")
+  
+
+  }
+
+
+````
+
+The above code snippets allows a Governor to create the proposal props and deploy the contract to an Algorand testnet
+
+![governorspage](https://firebasestorage.googleapis.com/v0/b/reach-basic-dao.appspot.com/o/governorpage.PNG?alt=media&token=2be55c95-2899-453a-bee3-64b59de3d089)
+
+![openpoll](https://firebasestorage.googleapis.com/v0/b/reach-basic-dao.appspot.com/o/openforvoting.PNG?alt=media&token=9ea2c55b-9b1a-40a0-ae94-a918355016c8)
+
+
+````
+   /pages/poll/voting.js
+        ---
+    import React,{useState,useEffect,useRef}from 'react'
+import proposalImg from "../../assests/proposal.png"
+import Modal from '../../components/modal'
+import {AiOutlineCloseCircle } from "react-icons/ai"
+import {GiVote} from "react-icons/gi"
+import {  BiRadioCircleMarked} from "react-icons/bi"
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { loadStdlib } from '@reach-sh/stdlib';
+import * as backend from '../../reach-app/build/index.main.mjs'
+import { AccountState} from '../../recoilState/globalState';
+import { useRecoilValue} from 'recoil';
+import { collection, onSnapshot, doc,getDocs,query, orderBy, limit } from 'firebase/firestore'
+import { db } from '../../firebase/firebase.util'
+import "./polls.css"
+import { Link } from 'react-router-dom'
+
+const reach = loadStdlib('ALGO');
+
+export default function Voting() {
+ const connectedCtc = useRef();
+  const [trigger,setTrigger] =useState(false)
+  const [outCome,setOutcome] =useState(NaN)
+  const [canVote,setCanVote] =useState(false)
+  const [Arrayproposal,Arraysetproposal] =useState([])
+  const [proposal,setProposal]=useState({})
+  const [myVote,setMyvote]=useState(false)
+   const [hasVoted,setHasvoted]=useState(false)
+   const [choice,setChoice]=useState(false)
+  const account =useRecoilValue(AccountState)
+  const [ctcInfo,setctcInfo]=useState({})
+  const ticketPrice=0.0
+  const deadline=0
+  const proposalId="xs7bc6"
+
+  useEffect(()=>{
+      const getProposals=async()=>{
+         const q = query(collection(db, "proposals"), orderBy("date", "desc"), limit(1));
+         const querySnapshot = await getDocs(q);
+         // console.log(querySnapshot)
+         querySnapshot.docs.map((doc)=>{
+            // console.log(doc.data())
+            setProposal({...doc.data(),id:doc.id})
+            Arraysetproposal([{...doc.data(),id:doc.id}])
+          })
+        // setproposal( querySnapshot.docs)
+      }
+
+      getProposals()
+  },[])
+    console.log()
+
+     const attach=(contractInfo) => {
+     
+       connectedCtc.current = account.contract(backend, JSON.parse(contractInfo));
+       //console.log(connectedCtc.current)
+       setCanVote(true)
+    }
+
+    const submitVote=async()=>{
+      try{
+         const value = await connectedCtc.current.apis.Voter.vote(myVote)
+         setChoice(value)
+         console.log(value,"resultfrom")
+      }catch(e){
+         console.log(e)
+      }
+          
+      setHasvoted(true)
+         
+    }
+     const ok=()=>{
+         setCanVote(false)
+
+          setTrigger(false)
+     }
+
+     const showVoteOutcome=async()=>{
+      try{
+         const outcome = await connectedCtc.current.apis.Voter.showOutcome()
+         console.log(outcome,"outcome ")
+         setOutcome(outcome)
+      }catch(e){
+         console.log(e)
+      
+     
+     }
+   }
+
+    console.log(ctcInfo,typeof(ctcInfo))
+    const Outcomes=["Motion supported ","Motion rejected"]
+
+`````
+
+Our code from the snippet ,we enable voters submit their votes
+
+![openpoll](https://firebasestorage.googleapis.com/v0/b/reach-basic-dao.appspot.com/o/votingpage.PNG?alt=media&token=375fd660-faa0-4800-94d6-cdf109e5231a)
+
+![openpoll](https://firebasestorage.googleapis.com/v0/b/reach-basic-dao.appspot.com/o/placevote.PNG?alt=media&token=f3f97e8e-2d1c-446d-ab20-faca9fea68be)
+
+![openpoll](https://firebasestorage.googleapis.com/v0/b/reach-basic-dao.appspot.com/o/attachpage.PNG?alt=media&token=45b14391-8339-4497-abd8-f35a01709510)
+
+
+![openpoll](https://firebasestorage.googleapis.com/v0/b/reach-basic-dao.appspot.com/o/submitVoote.PNG?alt=media&token=857030a6-030d-4734-a0b0-bbc9bf6aad8c)
+
+
+Our Governor get to monitor the ongoing voting process until the deadline is reached
+
+![openpoll](https://firebasestorage.googleapis.com/v0/b/reach-basic-dao.appspot.com/o/submitVoote.PNG?alt=media&token=857030a6-030d-4734-a0b0-bbc9bf6aad8c)
+
+![openpoll](https://firebasestorage.googleapis.com/v0/b/reach-basic-dao.appspot.com/o/governorproposal.PNG?alt=media&token=463a74aa-1152-4a1b-89bd-f208fcd58b36)
+
+
+
+The full code for the react frontend app can be found in the github repo.
+
+### Discussion
+
+Congratulations! You have built a fully functioning DAO Dapp
+
+If you found this tutorial helpful ,please let us know in the [Discord channel](https://discord.com/invite/AZsgcXu)
+
 
 
