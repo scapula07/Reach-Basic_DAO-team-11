@@ -53,7 +53,7 @@ const  startingVoting=async()=>{
 
 }
 
-      const seeOutcome=()=>{ 
+      const voterSeeOutcome=()=>{ 
         voters.map(async(voter)=>{
           const acc =voter.acc
           const who=voter.who
@@ -91,6 +91,7 @@ await ctcGovernor.p.Governor({
   },
   showOutcome:(  proposalID,forProposal, againstProposal)=>{
           console.log(` alice saw proposal #${ proposalID} poll outcome: ${ forProposal} to ${againstProposal}`)
+         voterSeeOutcome()
     },
   showTimeout:(timeout)=>{
     console.log(`${timeout} dealine reach `)
