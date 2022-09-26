@@ -4,9 +4,9 @@
 
 This is a web3 project  developed as part of Umoja3 Decentralzed Bounty hack.
 
-In this workshop i would work you through the details of my submitted hack project "Reach Basic DAO".
+In this workshop I will walk you through the details of my project "Reach Basic DAO" which I submitted for the hack.
 
-This project builds substantially on  a lot of concept from the Reach Lang tutorial and some of its workshop examples thus this  workshop, takes into consideration the fact that you have indeed complete the reach tutorial.
+This project builds substantially on  a lot of concept from the Reach Lang tutorial and some of its workshop examples. It assumes you have indeed completed at least the rock-paper-scissors reach tutorial.
 
 ---
 
@@ -15,32 +15,32 @@ This project builds substantially on  a lot of concept from the Reach Lang tutor
 
 A DAO, decentarlized autonomous organization is an emerging form of legal structure. With no central governing body, every member within a DAO typically shares a common goal and attempt to act in the best interest of the entity. 
 
-Our project simulate or runs as a voting platform whereby each members that hold certain or particular type of network or non-network token can vote on proposals submitteor created by governors. 
+Our project simulate or runs as a voting platform whereby each members that hold certain or particular type of network or non-network token can vote on proposals created and then submitted by governors. 
 
-Our dapp contracts is designed in such a way as to allow keeping track of counts on both sides i.e for or against proposals. The governor calls an external function when the voting deadline is reached.
+The DApp contracts is designed in such a way as to allow keeping track of counts on both sides i.e for or against proposals. The governor calls an external function when the voting deadline is reached.
 
 
-## Prerequisites/ Stack requirements
+## Prerequisites/Stack requirements
 ---
 
 1. A basic understanding of the Reach Language
-1. A basic undestanding of Javascript Programming Language
-1. Must had completed at least the basic Reach Language tutorial found at [Reach Docs](https://docs.reach.sh/tut/#tutshttps://docs.reach.sh/tut/#tuts) 
+2. A basic undestanding of Javascript Programming Language
+3. Must have completed at least the basic Reach Language tutorial found at [Reach Docs](https://docs.reach.sh/tut/#tutshttps://docs.reach.sh/tut/#tuts) 
 
 ## Software Requirements
 ---
 
 1. A Linux OS (Ubuntu) or a Windows 10 OS installed with version 2004 or higher
-1. Docker and Docker Compose
-1. Docker Desktop(optional)
-1. Make
+2. Docker and Docker Compose
+3. Docker Desktop(optional)
+4. Make
 
 ## Getting Started
 ---
 
 Installation steps for the above software is well written and provided in the [reach docs](https://docs.reach.sh/tut/#tutshttps://docs.reach.sh/tut/#tuts) 
 
-Check all the tools are installed and working correctly with the below commands:
+Check all tools are installed and working correctly with the commands below:
 
 ```
   $ make --version
@@ -53,7 +53,7 @@ Check all the tools are installed and working correctly with the below commands:
  $ docker-compose --version
  ```
 
-Now, to get the project started,we assume that you’ll go through this workshop in a directory named ~/reach/workshop-basic-dao:
+Now, to get the project started, we assume that you’ll go through this workshop in a directory named ~/reach/workshop-basic-dao:
 
 ```
    $ mkdir -p ~/reach/workshop-basic-dao
@@ -63,12 +63,12 @@ Now, to get the project started,we assume that you’ll go through this workshop
    $ cd ~/reach/workshop-basic-dao
 ```
 
-Now download the latest version of Reach as follows:
+Now download the latest version of Reach commandline utility as follows:
 ```
     $ curl https://docs.reach.sh/reach -o ../reach ; chmod +x ../reach
 ```
 
-Run the below to verify reach is properly installed in your machine:
+Run below command to verify reach is properly installed in your machine:
 ```
   ../reach version
 ```
@@ -78,7 +78,7 @@ This should run and print your version of reach successfuly
     reach 1.1.7
  ```
 
-It is best to start off by initialzing your reach program by runing the following:
+It is best to start off by scaffolding a basic reach program by running the following:
 
 ```
     $.../reach init
@@ -89,7 +89,7 @@ It is best to start off by initialzing your reach program by runing the followin
 ```
 ../reach init create a index.rsh file which is the file where our backend code will be written, and index.mjs file where our frontend code will be written. If you open these files, you will see the scaffolding structure for reach that Reach Init has created for us.
 
- Lets run our program to check if everything is up correctly:
+ Lets run our program to check if everything is installed correctly:
 
  ```
    $ REACH_CONNECTOR_MODE=ALGO ../reach run
@@ -102,9 +102,9 @@ It is best to start off by initialzing your reach program by runing the followin
 
 ## Problem Analysis
 
-In implementing any application,we firstly must perform what is called problem analytics. This defines the general scope of the issue, how we intend to solve the problem with our application and includes an analysis of the set of participants involved in a computation.
+In implementing any application, we firstly must perform what is called problem analytics. This defines the general scope of the issue, how we intend to solve the problem with our application and includes an analysis of the set of participants involved in a computation.
 
-The problem analysis depends on the objective of our project which is: Governors submit a proposal within a predetermined deadline.And voters vote for or against the proposal.The direction of vote with the most count wins.
+The problem analysis depends on the objective of our project which is: Governors submit a proposal within a predetermined deadline. And voters vote for or against the proposal. The side of vote with the most count wins.
 
 Now try to write down your own answers in your Reach backend program(index.rsh) using comments block using the following guiding questions:
 
@@ -124,15 +124,15 @@ Compare those answers with our answers below:
 
 ```
 
-    This program involves two roles: a Governor who deploys the DAO contract and the voters who chooses vote for or against a proposal .
+    This program involves two roles: a Governor who deploys the DAO contract and the voters who votes for or against a proposal .
 
-    The Governor knows the set of props for each proposal and the ticket price at the start of the voting period as well as deadline for the voting period.
+    The Governor knows the set of properties for each proposal and the ticket price at the start of the voting period as well as deadline for the voting period.
 
-    The voter are aware of the props of each proposal has the application start such as proposal ID, ticket price and deadline for voting.
+    The voter are aware of the properties of each proposal at the beggining of the application such as proposal ID, ticket price and deadline for voting.
 
     Each Voter  makes a  choice between for or against or simply YES/NO decision
 
-    The Governor counts  the votes of each voter ,compares them and publish the poll result.
+    The Governor counts  the votes of each voter, compares them and publish the poll result.
 
     The Governor calls an external function if more voter vote in support than against.
 
@@ -143,7 +143,7 @@ It is alright if your answers differs from mine, if you are confident your answe
 ## Data Definition
 ---
 
-This context of the workshop, would be focus on going through definition of data types equivalents of the values we used in our answers from the previous section. 
+In this step of the workshop, we would focus on going through definition of data types equivalents of the values we used in our answers from the previous section. 
 
 So, for this program, we should decide:
 
@@ -191,32 +191,32 @@ Write down the data definitions for this program as definitions.
 ```
 
 We are going to represent the data defintion as;
- -proposalId as UInt,
+ - proposalId as UInt,
  - ticketprice as UInt, 
- -deadline as UInt, 
- -the getProposal function as Fun([], Object({proposalID:UInt,ticketPrice: UInt,deadline: UInt, })), that takes nothing and return an object of props.
--proposalReady as Fun([],Null), that takes nothing and return nothing and is used to start the voting process thus each voter can submit their vote; 
--showOutcome as Fun([UInt, UInt, UInt], Null), that takes three argument but returns nothing.This function shows the outcome to the governor.
-- callFunction as Fun([],Null),that takes three argument but returns nothing. This act as an external function  that is called by the governor.
-- showTimeout as Fun([UInt],Null), that takes a argument but returns nothing. which is used to inform the governor that a timeout has occured.
+ - deadline as UInt, 
+ - the getProposal function as Fun([], Object({proposalID:UInt,ticketPrice: UInt,deadline: UInt, })), that takes nothing and return an object of properties.
+ - proposalReady as Fun([],Null), that takes nothing and return nothing and is used to start the voting process thus each voter can submit their vote; 
+ - showOutcome as Fun([UInt, UInt, UInt], Null), that takes three argument but returns nothing. This function shows the outcome to the governor.
+ - callFunction as Fun([],Null), that takes three argument but returns nothing. This act as an external function  that is called by the governor.
+ - showTimeout as Fun([UInt],Null), that takes a argument but returns nothing. which is used to inform the governor that a timeout has occured.
 
-- vote as Fun([Bool], Bool), that takes a argument but and returns a boolean. 
--showOutcome as Fun([],UInt), that takes a argument but and returns a boolean. 
+ - vote as Fun([Bool], Bool), that takes a argument and returns a boolean. 
+ - showOutcome as Fun([],UInt), that takes a argument and returns a boolean. 
 
 ## Communication construction
 ---
-A fundamental aspect of a decentralized application is the pattern of communication and transfer among the participants, including the consensus network.Try to write this part considering how the process of Governor creating a proposal, the ticket price and the voters will use to vote.
+A fundamental aspect of a decentralized application is the pattern of communication and transfer among the participants, including the consensus network. Try to write this part considering how the process of Governor creating a proposal, the ticket price and the voters will use to vote.
 
 Write down the  structure for this program as comments.
 
 ```
-    The Governor create  the props of a proposal i.e define the proposal id,ticket price and deadline.
+    The Governor create  the properties of a proposal i.e define the proposal id, ticket price and deadline.
 
-    The Governor wait for all the voters to submit thier choice of vote:
+    The Governor wait for all the voters to submit their choice of vote:
 
-    Each voter are given a period to submit their choice of vote.
+    Each voter is given a period to submit their choice of vote.
 
-    The Governor keeps track of counts of vote .
+    The Governor keeps track of counts of votes.
 
     The Governor and Voters are informed of voting outcome at the end of voting period or deadline.
 
@@ -231,9 +231,9 @@ Write down the  structure for this program as comments.
 
  ```rs     
           
-           const [ _, MOTION_WINS, MOTION_LOSE, TIMEOUT ] = makeEnum(3);
+            const [ _, MOTION_WINS, MOTION_LOSE, TIMEOUT ] = makeEnum(3);
 
-           const showOutcome = ( proposalID,  voteFor, voteAgainst) => {
+            const showOutcome = ( proposalID,  voteFor, voteAgainst) => {
           
             Governor.interact.showOutcome( proposalID, voteFor, voteAgainst)};
 
@@ -291,9 +291,9 @@ Write down the  structure for this program as comments.
  ```
 In the code, we  ensure each voter get a chance to submit their choice of vote. The Governor keeps track of vote count, and the contract keeps this step in a loop.
 
-At the end of the voting period(deadline) , the vote is calculated and result published to the blockchain.
+At the end of the voting period(deadline) , the votes are calculated and result published to the blockchain.
 
-The last part of the logic, is that, the balance is to the Governor account and Of course in real life application, one should create a better logic of distributing the balance such as using community pools etc but Since our application is simple, then we haven't implimented it yet.
+The last part of the logic, is that, the balance is transfered to the Governor account. Of course in real life application, one should create a better logic of distributing the balance such as using community pools, etc. Since our application is simple, then we haven't implimented it yet.
 
 ## Assertion Insertion
 ---
@@ -301,7 +301,7 @@ To simplify the code, no assertion of the contract is implimented, aside from th
 
 ## Possible code additions
 ---
- Our code works fine but there are some points we need to improve. One improvement is to enforce a way to show voting outcome to  all our voters. For that, we will define a function thus:
+ Our code works fine but there are some points we need to improve. One improvement is to enforce a way to show voting outcome to  all our voters. For that, we will define a function as:
 
  ```rs
     const outcome = voteFor>= voteAgainst ? MOTION_WINS : MOTION_LOSE
@@ -313,12 +313,12 @@ To simplify the code, no assertion of the contract is implimented, aside from th
 
  ## Interaction Introduction
 
- Now we have a complete contract we can write the frontend.
+ Now we have a completed the contract we can write the frontend.
 
-  The frontend  produce the following data for the backend:
+  The frontend produce the following data for the backend:
 
   1. The Governor creates the props of the proposal. This is implimented on frontend using Javascript since its much more simpler than creating in the backend with current knowledge of Reach Language.
-  1. Each voter will provide their choice of vote i.e yes/no
+  2. Each voter will provide their choice of vote i.e yes/no
  
   Insert interact calls to the frontend into the program (index.mjs).
 
@@ -543,7 +543,7 @@ Provided that you have a basic understanding of javascript, you can easily under
 ##  Discussion
 Congratulation for implimenting your own unique numbers game in reach.
 
-Please take into consideration that this workshop gives you the overview functionality with respect to code structure of our project.To best and fully understand the code please review the github repo [github repo](https://github.com/scapula07/Reach-Basic_DAO-team-11/tree/main) 
+Please take into consideration that this workshop gives you the overview functionality with respect to code structure of our project. To best and fully understand the code please review the github repo [github repo](https://github.com/scapula07/Reach-Basic_DAO-team-11/tree/main) 
 
 If you found this workshop helpful, please let us know on the Discord community!
 
