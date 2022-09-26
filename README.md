@@ -25,7 +25,7 @@ A DAO, decentarlized autonomous organization is an emerging form of legal struct
 
 Our project simulate or runs as a voting platform whereby each members that hold certain or particular type of network or non-network token can vote on proposals submitteor created by governors.
 
-Our dapp contracts is designed in such a way as to allow keeping track of counts on both sides i.e for or against proposals. The governor calls an external function when the voting deadline is reached.
+Our DApp contracts is designed in such a way as to allow keeping track of counts on both sides i.e for or against proposals. The governor calls an external function when the voting deadline is reached.
 
 ##  Prerequisites/ Stack requirements
 
@@ -56,7 +56,7 @@ Our dapp contracts is designed in such a way as to allow keeping track of counts
     $ docker-compose --version
  
  ```
-  Now, to get the project started,we assume that you’ll go through this workshop in a directory named ~/reach/tut-basic-dao:
+  Now, to get the project started,we assume that you’ll go through this workshop in a directory named `~/reach/tut-basic-dao`:
     
     
  ```
@@ -78,21 +78,21 @@ Our dapp contracts is designed in such a way as to allow keeping track of counts
    Run the below to verify reach is properly installed in your machine:
    
    ```
-      ../reach version
+    ../reach version
    ```
-    This should run and print your version of reach successfuly
+   
+   This should run and print your version of reach successfuly
    
    ```
       reach 1.1.7
-   
    ```
    
    
    ## Scaffolding and setup
    
-  In this tutorial, we'll be walking you step-by-step on how to build your own version of our dapp. We'll start simple and slowly make the application more fully-featured.Okay!
+  In this tutorial, we'll be walking you step-by-step on how to build your own version of our DApp. We'll start simple and slowly make the application more fully-featured. Okay!
    
- You should follow along by copying-pasting or coding  each part of the program ,to get a feel of writing a reach program.
+ You should follow along by copying-pasting or coding  each part of the program, to get a feel of writing a reach program.
    
  Our first step is inside the project folder, initialize our project to create index.mjs and index.rsh with some boilerplate code. Do this by running the below command in the terminal.
  
@@ -106,9 +106,8 @@ Our dapp contracts is designed in such a way as to allow keeping track of counts
  
  ```
  
- ../reach init create a index.rsh file which is the file where our backend code will be written, and index.mjs file where our frontend code will be written. If you open these files, you will see the scaffolding structure for reach that Reach Init has created for us.
+ `../reach init` create a `index.rsh` file which is the file where our backend code will be written, and `index.mjs` file where our frontend code will be written. If you open these files, you will see the scaffolding structure for reach that Reach Init has created for us.
   
-
 Here is the index.rsh which is the backend of our Dapp.
 
 ```
@@ -123,10 +122,8 @@ Here is the index.rsh which is the backend of our Dapp.
    8  init();
    9  // write your program here
    10 });
-
-
 ```
-    Snippet above is a shell of a program that doesn't do much, but it has a few important components,below is an  explanation of what it does.
+ Snippet above is a shell of a program that doesn't do much, but it has a few important components,below is an  explanation of what it does.
 
    - Line 1 indicates that this is a Reach program. You'll always have this at the top of every program
    - Line 3 defines the main export from the program. When you compile, this is what the compiler will look at
@@ -155,20 +152,20 @@ Here is the index.rsh which is the backend of our Dapp.
 
  ```
  
-   This JavaScript code is similarly schematic and will be consistent across all of your test programs.28
+   This JavaScript code has similar schematic and will be consistent across all of your test programs.
 
    - Line 1 imports the Reach standard library loader.
-   - Line 2 imports your backend, which ./reach compile will produce.
+   - Line 2 imports your backend, which `./reach compile` will produce.
    - Line 3 loads the standard library dynamically based on the REACH_CONNECTOR_MODE environment variable.
    - Line 4 defines a quantity of network tokens as the starting balance for each test account.
-   - Lines 5 and 6 create test accounts with initial endowments for Alice and Bob. This will only work on the Reach-provided developer testing network.33
+   - Lines 5 and 6 create test accounts with initial endowments for Alice and Bob. This will only work on the Reach-provided developer testing network.
    - Line 8 has Alice deploy the application.
    - Line 9 has Bob attach to it.
    - Lines 10 through 12 initialize a backend for Alice.
    - Lines 13 through 15 initialize a backend for Bob.
    - Line 9 waits for the backends to complete.
 
-  This is now enough for Reach to compile and run our program. Let's try by running
+  This is now enough for Reach to compile and run our program. Let's try to run it using the command:
  
   ```
     $ ./reach run
@@ -180,9 +177,9 @@ Here is the index.rsh which is the backend of our Dapp.
  
  ## Getting Started : Reach Basic DAO implementation
 
-In this section, We will implement the logic of the Reach Basic DAO. We will start by modifying the index.rsh file to better suit our dapp.
+In this section, We will implement the logic of the Reach Basic DAO. We will start by modifying the index.rsh file to better suit our DApp.
 
-We will represent the two major participants in our Dapp as ;
+We will represent the two major participants in our DApp as ;
 
 - Governor : who create and submit a proposal for voting.
 - Voter  : who votes in favor or against a certain proposal.
@@ -204,13 +201,13 @@ Our modified reach program would look like the below;
 
    ```
    
-  - Line 2 ,defines a participant called the Governor .You can check the [reach docs](https://docs.reach.sh/rsh/appinit/#participant-definition) for more details.
+  - Line 2 ,defines a participant called the Governor. You can check the [reach docs](https://docs.reach.sh/rsh/appinit/#participant-definition) for more details.
 
- - Line 5, defines an API class called Voter. API is used to represent a group of participant that share common roles or functions, in our case ,all voters are a   set . for more details check reach docs  [reach docs](https://docs.reach.sh/rsh/appinit/#ref-programs-appinit-api).
+ - Line 5, defines an API class called Voter. API is used to represent a group of participant that share common roles or functions, in our case, all voters are set. For more details check reach docs  [reach docs](https://docs.reach.sh/rsh/appinit/#ref-programs-appinit-api).
 
 
 
-  Next ,We define the most basic functions of a Governor and of a Voter, which are to submit a proposal,start the voting process, see voting outcome and vote respectively. These are functions are passed or defined in the interact interface of the Governor and Voter.
+  Next, We define the most basic functions of a Governor and of a Voter, which are to submit a proposal, start the voting process, see voting outcome and vote respectively. These are functions are passed or defined in the interact interface of the Governor and Voter.
   
   Below shows our new addition;
   
@@ -249,16 +246,16 @@ Our modified reach program would look like the below;
   
 - Lines 6 through 12 define the Governor participant interact interface. In this case, it provides the below methods:
 
-    1. getProposal : returns a reach object  containing the props of a proposal e.g proposaID,ticketPrice and deadline which are all unsigned integers
+    1. `getProposal` : returns a reach object  containing the props of a proposal e.g proposaID,ticketPrice and deadline which are all unsigned integers
     
-    2. proposalReady: takes nothing and returns nothing .It used to start the voting process or period
+    2. `proposalReady` : takes nothing and returns nothing. It used to start the voting process or period
     
-    3. showOutcome : takes three unsigned integers but returns nothing. This function is used to show the result of voting to the Governor
+    3. `showOutcome` : takes three unsigned integers but returns nothing. This function is used to show the result of voting to the Governor
     
-- Lines 15 through 19 define the Voter API interact interface. In this case, it provides only one function ,vote which takes a boolean value and returns a boolean value.
+- Lines 15 through 19 define the Voter API interact interface. In this case, it provides only one function `vote`, which takes a boolean value and returns a boolean value.
 
 
- Before continuing with our Reach application, let's move over to the JavaScript interface and implement these methods in our frontend index.mjs
+ Before continuing with our Reach application, let's move over to the JavaScript interface and implement these methods in our frontend `index.mjs`
  
  ```
   1  import {loadStdlib} from '@reach-sh/stdlib';
@@ -336,15 +333,15 @@ Our modified reach program would look like the below;
 
  ```
  
-- Line 7 create an account for our Governor ,instantiated with a starting balance of Algo
+- Line 7 create an account for our Governor, instantiated with a starting balance of Algo
 - Line 14 defines an array of voters, which is use to hold the addresses of every voter
 - Line 16 defines a variable called done, which is used to indicate when all voters has voted
-- Lines 18 through 49 defines a function,startVoting.This function create new account instance of a voter ,initialized with a starting balance of algo.
+- Lines 18 through 49 defines a function, `startVoting` .This function create new account instance of a voter ,initialized with a starting balance of algo.
 - Line  21 create a contract instance in which each voter has attach to the contract deployed by Governor.
-- Line 24 defines a randomBoolean variable which represent the choice of a voter i.e yes or no
-- Line 26 through 34 ,is a try-catch block that exposes the api function(vote) of our reach program to the frontend
-- Line 36 thhrough 42 ,create several account instance of a voter.
-- Line 53 through 64, declares the implementation of the Governors function.And these are the actual objects that will be bound to interact in the Reach program.
+- Line 24 defines a `randomBoolean` variable which represent the choice of a voter i.e yes or no
+- Line 26 through 34, is a try-catch block that exposes the api function(vote) of our reach program to the frontend
+- Line 36 thhrough 42, create several account instance of a voter.
+- Line 53 through 64, declares the implementation of the Governors function. And these are the actual objects that will be bound to interact in the Reach program.
 
 
 The logic of voting proceeds as below;
@@ -359,15 +356,13 @@ The logic of voting proceeds as below;
 ```
 
 - Line 20 states that this block of code is something that only Goveernor performs.
-  That means that the variables, ticketPrice, deadline, proposalID, destructured or bound  on line 21 is known only to Governor.
-- Line 21 binds these variables to the result of interacting with Governor through the getProposal method, which was implement in the frontend.
+  That means that the variables `ticketPrice`, `deadline`, `proposalID`, destructured or bound  on line 21 is known only to Governor.
+- Line 21 binds these variables to the result of interacting with Governor through the `getProposal` method, which was implement in the frontend.
 This also declassifies the value, because in Reach, all information from frontends is secret until it is explicitly made public.
 - Line 24 has the Governor join the application by publishing the value to the consensus network, so it can be used to begin the vote process. Once this happens, the code is in a "consensus step" where all participants act together.
 - Line 25 commits the state of the consensus network and returns to "local step" where individual participants can act alone.
 
-
 Next step is for our Governor to begin the vorting process:
-
 
 ```
  26  Governor.publish()
@@ -375,13 +370,13 @@ Next step is for our Governor to begin the vorting process:
 
 ```
 - Line 26 the Governor publish inorder to enter a local step
-- Line 27, the Governor start the voting process by interacting with the proposalReady function.
+- Line 27, the Governor start the voting process by interacting with the `proposalReady` function.
 
-The proposalReady informs the all participantthe poll is open voting ,thus voting process proceeds.
+The `proposalReady` informs the all participantthe poll is open voting ,thus voting process proceeds.
 
-A very crucial part of our DAO dapp is the mechanism of voting. Inorder to allow participation of voters in dapp ,we employ a concept in Reach called parallelReduce.
+A very crucial part of our DAO dapp is the mechanism of voting. Inorder to allow participation of voters in dapp, we employ a concept in Reach called `parallelReduce`.
 
-parallelReduce is a kind of consensus transfer in reach.It is just an abbreviation of a fork within a while loop. A fork is a kind consensus transfer  for when many participants want to each do a different thing, in our case ,each Voter want to submit different choice of votes . We used a parallelReduce instead of a fork because we  want voting to happen over and over until some condition is met i.e until the deadline of voting is over. for more details ,[reach docs](https://docs.reach.sh/guide/ctransfers/#guide-ctransfers)
+`parallelReduce` is a kind of consensus transfer in reach. It is just an abbreviation of a fork within a while loop. A fork is a kind consensus transfer  for when many participants want to each do a different thing, in our case, each Voter want to submit different choice of votes. We used a `parallelReduce` instead of a fork because we  want voting to happen over and over until some condition is met i.e until the deadline of voting is over. for more details [reach docs](https://docs.reach.sh/guide/ctransfers/#guide-ctransfers)
 
 We create a two helper functions from reach [makeDeadline](https://docs.reach.sh/rsh/compute/#rsh_makeDeadline) as seen below;
 
@@ -389,13 +384,13 @@ We create a two helper functions from reach [makeDeadline](https://docs.reach.sh
   28 const [ timeRemaining, keepGoing ] = makeDeadline(deadline);
 
 ```
-- Line 28 , destructures two helper functions from makeDeadline ,which takes a UInt(deadline) as an argument and returns a pair of functions that can be used for dealing with absolute deadlines. It internally determines the end time based off of the deadline and the last consensus time
+- Line 28, destructures two helper functions from makeDeadline ,which takes a UInt(deadline) as an argument and returns a pair of functions that can be used for dealing with absolute deadlines. It internally determines the end time based off of the deadline and the last consensus time
     
-    1. timeRemaining will calculate the difference between the end time and the current last consensus time
-    2. keepGoing determines whether the current last consensus time is less than the end time.
+    1. `timeRemaining` will calculate the difference between the end time and the current last consensus time
+    2. `keepGoing` determines whether the current last consensus time is less than the end time.
 
 
-For our parallelReduce block, we want to monitor and change the values of two variables **voteFor, voteAgainst**. These variables helps us keep track of vote counts in our dapp.
+For our `parallelReduce` block, we want to monitor and change the values of two variables **voteFor, voteAgainst**. These variables helps us keep track of vote counts in our DApp.
 
 ```
    29 const [voteFor, voteAgainst] =
@@ -415,19 +410,18 @@ For our parallelReduce block, we want to monitor and change the values of two va
 
 ```
 
-- Lines 29 and 30 ,defines the parallReduce variables **voteFor, voteAgainst**, which are initialized with 0.
-- Line 31 declares an invariant, the condition of the variant is that , at the start and end of the parallelReduce block , the balance of the contract must be equals to the sum all votes multiplied by the ticketPrice.
-- Line 32 ,is a while statement that keeps the parallelReduce in loop until the keepGoing() returns false ,meaning deadline is reached.
-- Lines 33 through 40 is the .api_ block,which represent the point where each user can perform an action i.e vote.
+- Lines 29 and 30 ,defines the `parallReduce` variables **voteFor, voteAgainst**, which are initialized with 0.
+- Line 31 declares an invariant, the condition of the variant is that, at the start and end of the `parallelReduce` block , the balance of the contract must be equals to the sum all votes multiplied by the ticketPrice.
+- Line 32 ,is a while statement that keeps the `parallelReduce` in loop until the `keepGoing()` returns false, meaning deadline is reached.
+- Lines 33 through 40 is the `.api_` block,which represent the point where each user can perform an action i.e vote.
 
-.api_ takes two argument , an expression that evaluate to a function in the API interface i.e vote and a callBack function. 
+`.api_` takes two argument , an expression that evaluate to a function in the API interface i.e vote and a callBack function. 
 
-The first callback function of the .api_ block returns an array, which contains the **ticketPrice** which is payed into the contract by each voter and a second callback funtion that does a small computation for voting.
+The first callback function of the `.api_` block returns an array, which contains the **ticketPrice** which is payed into the contract by each voter and a second callback funtion that does a small computation for voting.
 
-The second callback function returns an array of items which then update the parallelReduce variables. The k(true ) sends a boolean of true back to the frontend.
+The second callback function returns an array of items which then update the parallelReduce variables. The `k(true )` sends a boolean of true back to the frontend.
 
-
-We add a timeout block to our parallelReduce , which is to run when the deadline is reached.But before look at this block of code, we first add more functions to our Governor and Voter interact interface;
+We add a timeout block to our `parallelReduce`, which is to run when the deadline is reached.But before look at this block of code, we first add more functions to our Governor and Voter interact interface;
 
 ````
    const Governor= Participant('Governor', {
@@ -449,11 +443,11 @@ We add a timeout block to our parallelReduce , which is to run when the deadline
 
 
  - Lines 13 through 16 define new methods in the interact interface of the Governor;
-     1.  callFunction : returns nothing .It used by the Governor to call external function as proscribed by the project description.
+     1.  callFunction : returns nothing. It used by the Governor to call external function as proscribed by the project description.
     
-    2.  showTimeout: takes an unsigned integer and returns nothing .It used to inform the Govenror of a timeout i.e when the deadline is reached.
+    2.  showTimeout: takes an unsigned integer and returns nothing. It used to inform the Govenror of a timeout i.e when the deadline is reached.
     
- -  Line 22 ,is an added method in our Voter interface, which informs each voter of the outcome of the votes.
+ -  Line 22, is an added method in our Voter interface, which informs each voter of the outcome of the votes.
  
  Same changes should be reflected in our frontend index.mjs
  
@@ -477,12 +471,9 @@ We add a timeout block to our parallelReduce , which is to run when the deadline
  
  ```
  
-  The above block of javascript code is the implemenation of our new interact interface methods.The voterSeeOutcome will be implemented later.
+ The above block of javascript code is the implemenation of our new interact interface methods. The `voterSeeOutcome` will be implemented later.
     
- 
  The below is the code timeout code block of the parallelReduce
- 
- 
  
 
 ```
@@ -499,15 +490,13 @@ We add a timeout block to our parallelReduce , which is to run when the deadline
 
 ````
 
- - Lines 42  , Anybody.publish() means that any participant involved can publish the new state of the blockchain while Line 43 takes this block out of a consensus step back to a local step.
+ - Lines 42, `Anybody.publish()` means that any participant involved can publish the new state of the blockchain while Line 43 takes this block out of a consensus step back to a local step.
  
  - Line 45, the Governor interact with the showTimeout method which informs the Governor that deadline is reached
  - Line 46 through 47, returns the outcome of the voting to each user by using the **call method** of reach, this concept would be explain below.
- - Line 49, returns an array that update the parallelReduce variables.
+ - Line 49, returns an array that update the `parallelReduce` variables.
  
-    
-    
-   To show voting outcome to every participant ,we implement the lines of code below;
+   To show voting outcome to every participant, we implement the lines of code below;
  
  ```
         const [ _, MOTION_WINS, MOTION_LOSE, TIMEOUT ] = makeEnum(3);
@@ -521,12 +510,9 @@ We add a timeout block to our parallelReduce , which is to run when the deadline
      
  ````
     
-    
-    
-    
-We make use of makeEnum() to  define three options which evaluate to an integer .These options will be used to inform our Voter and Governor of the outcome.
+We make use of `makeEnum()` to  define three options which evaluate to an integer .These options will be used to inform our Voter and Governor of the outcome.
 
-The showOutcome function block takes three arguments.Within it, the Governor interact with the interface showoutocme method.
+The showOutcome function block takes three arguments. Within it, the Governor interact with the interface `showOutcome` method.
 
 ````
        51  showOutcome( proposalID, voteFor, voteAgainst);
@@ -540,16 +526,13 @@ The showOutcome function block takes three arguments.Within it, the Governor int
 
 ````
  
- 
 
-- Line 51, calls the showOutcome function implemnented shown above.
-- Line 53, binds the variable outcome to either optons from the makeEnum.
+- Line 51, calls the `showOutcome` function implemnented shown above.
+- Line 53, binds the variable outcome to either optons from the `makeEnum`.
    
 - Line 55 and 56, use the call function to propagate the outcome to each voter using an api call in the frontend. 
    
-We can now implement the voterSeeOtcome for the voter;
-
-
+We can now implement the `voterSeeOtcome` for the voter;
 
 ````
   const voterSeeOutcome=()=>{ 
@@ -575,10 +558,8 @@ We can now implement the voterSeeOtcome for the voter;
 
 ````
  
- 
 
 Nice work so far, we are at the end of our reach program. The last block of code focus on calling the extenal function by the Governor and transfer of funds in the contract to the Governors account.
-
 
 
 ````
@@ -594,7 +575,7 @@ Nice work so far, we are at the end of our reach program. The last block of code
 
 ````
  
-You can now run the reach program to see what happens ,
+You can now run the reach program to see what happens,
 
 ````
   $ ../reach run
@@ -605,16 +586,16 @@ You can now run the reach program to see what happens ,
 ## Web interactions
    
    
-Currently, our Dapp works as a command-line application. In this section, we will make it have a web interface. React js will be used to build the web              interface, but the same principles apply to any web framework.
+Currently, our Dapp works as a command-line application. In this section, we will make it have a web interface. React js will be used to build the web interface, but the same principles apply to any web framework.
    
-To complete this section we'll use the index.rsh you've already written and then create a react app folder.Run the command below
+To complete this section we'll use the index.rsh you've already written and then create a react app folder. Run the command below
 
 
 ````
     $ npx create-react-app reach-tut-basic-dao
 ````
 
-We move the reach folder into the src folder of our react app. The tree structure is a simplied version of our app structure.
+We move the reach folder into the `src` folder of our react app. The tree structure is a simplied version of our app structure.
 
 ````
   ├── index.css
@@ -646,7 +627,7 @@ The above pages and components contain the below major imports;
 ````
 
 
-React compiles the Reach standard library in such a way that it does not have direct access to the environment variables which are used to select the desired standard  library. This is why you need to pass process.env as an argument to achieve the desired effect.
+React compiles the Reach standard library in such a way that it does not have direct access to the environment variables which are used to select the desired standard  library. This is why you need to pass `process.env` as an argument to achieve the desired effect.
 
 
 ###  Application components
@@ -715,7 +696,7 @@ React compiles the Reach standard library in such a way that it does not have di
 
 ````
 
-The above snippets connect our Dapp to account in MyAlgoWallet,Pera Wallet or Other Wallets using Wallet connect
+The above snippets connect our Dapp to account in MyAlgoWallet, Pera Wallet or Other Wallets using Wallet connect
 
 ![connectAcc](https://firebasestorage.googleapis.com/v0/b/reach-basic-dao.appspot.com/o/connectAcc.PNG?alt=media&token=921d7d5e-772c-436a-8cdc-4914d8484fbe)
    
@@ -949,7 +930,7 @@ export default function Voting() {
 
 `````
 
-Our code from the snippet ,we enable voters submit their votes
+Our code from the snippet, we enable voters submit their votes
 
 ![openpoll](https://firebasestorage.googleapis.com/v0/b/reach-basic-dao.appspot.com/o/votingpage.PNG?alt=media&token=375fd660-faa0-4800-94d6-cdf109e5231a)
 
@@ -966,7 +947,6 @@ Our Governor get to monitor the ongoing voting process until the deadline is rea
 ![openpoll](https://firebasestorage.googleapis.com/v0/b/reach-basic-dao.appspot.com/o/submitVoote.PNG?alt=media&token=857030a6-030d-4734-a0b0-bbc9bf6aad8c)
 
 ![openpoll](https://firebasestorage.googleapis.com/v0/b/reach-basic-dao.appspot.com/o/governorproposal.PNG?alt=media&token=463a74aa-1152-4a1b-89bd-f208fcd58b36)
-
 
 
 The full code for the react frontend app can be found in the github repo.
